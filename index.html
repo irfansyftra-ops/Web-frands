@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web-PPSWR | Official Profile & Dashboard</title>
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Konfigurasi Tailwind untuk mendukung class 'dark' secara manual
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- AOS (Animate On Scroll) CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    .smooth-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+    }
+    .smooth-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.3);
+      border-color: rgba(99, 102, 241, 0.8);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-white font-sans min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white flex flex-col justify-between transition-colors duration-300">
+
+  <!-- TOMBOL TOGGLE DARK/LIGHT MODE DI POJOK KANAN ATAS -->
+  <div class="fixed top-4 right-4 z-50">
+    <button onclick="toggleDarkMode()" class="bg-slate-800 dark:bg-slate-800 text-white p-3 rounded-full shadow-lg border border-slate-700 hover:scale-110 transition duration-300 flex items-center justify-center">
+      <i id="theme-icon" data-lucide="sun" class="w-5 h-5"></i>
+    </button>
+  </div>
+
+  <div>
+    <!-- HEADER DENGAN BACKGROUND FOTO BARENG -->
+    <header class="relative bg-cover bg-center py-32 px-6 text-center shadow-2xl" style="background-image: url('squad.jpeg');">
+      <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-[2px]"></div>
+
+      <div class="relative z-10 max-w-2xl mx-auto" data-aos="fade-down" data-aos-duration="1200">
+        <h1 class="text-5xl md:text-6xl font-black text-indigo-400 tracking-wider drop-shadow-lg">Web-PPSWR</h1>
+        <p class="text-slate-200 mt-3 text-lg font-medium drop-shadow">"Official Circle & Squad Profile"</p>
+      </div>
+    </header>
+
+    <!-- MENU DASHBOARD / SQUAD STATS -->
+    <section class="max-w-6xl mx-auto px-6 -mt-8 relative z-20 mb-10" data-aos="fade-up" data-aos-duration="900">
+      <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-2xl grid grid-cols-1 md:grid-cols-3 gap-6 text-center transition-colors duration-300">
+        
+        <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+          <div class="flex items-center justify-center gap-2 text-indigo-500 dark:text-indigo-400 mb-1">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            <span class="font-bold text-sm tracking-wide uppercase">Total Anggota</span>
+          </div>
+          <p class="text-2xl font-black text-slate-800 dark:text-white">5 Orang</p>
+        </div>
+
+        <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+          <div class="flex items-center justify-center gap-2 text-indigo-500 dark:text-indigo-400 mb-1">
+            <i data-lucide="activity" class="w-5 h-5"></i>
+            <span class="font-bold text-sm tracking-wide uppercase">Squad Status</span>
+          </div>
+          <p class="text-xl font-bold text-emerald-500 dark:text-emerald-400">Solid & On Track 🚀</p>
+        </div>
+
+        <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+          <div class="flex items-center justify-center gap-2 text-indigo-500 dark:text-indigo-400 mb-1">
+            <i data-lucide="calendar" class="w-5 h-5"></i>
+            <span class="font-bold text-sm tracking-wide uppercase">Angkatan</span>
+          </div>
+          <p class="text-2xl font-black text-slate-800 dark:text-white">Sistem Informasi '26</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- KONTEN ANGGOTA GENG -->
+    <main class="max-w-6xl mx-auto px-6 relative z-20 mb-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- MEMBER 1 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
+             data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="Irfan.jpg" alt="Irfan Syahfutra" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Irfan Syahfutra</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Sistem Informasi</p>
+
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> Badminton</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> Software Engineer</p>
+            </div>
+          </div>
+
+          <a href="https://instagram.com/irfansyftra" target="_blank" rel="noopener noreferrer" 
+             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@irfansyftra</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 2 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
+             data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="Vanni.jpeg" alt="Vannisya Rahma Haliza" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Vannisya Rahma Haliza</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Sains Komunikasi</p>
+
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> Nonton</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> CEO</p>
+            </div>
+          </div>
+
+          <a href="https://instagram.com/vnnirh" target="_blank" rel="noopener noreferrer" 
+             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@vnnirh</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 3 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
+             data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="images/member3.jpeg" alt="Satria Cahaya Mulia" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Satria Cahaya Mulia</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Sistem Informasi</p>
+
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+
+          <a href="https://instagram.com/username_satria" target="_blank" rel="noopener noreferrer" 
+             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username_satria</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 4 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
+             data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="images/member4.jpeg" alt="Nanda Gadis Supriadi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Nanda Gadis Supriadi</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Sains Komunikasi</p>
+
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> Nyanyi</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> Sutradara</p>
+            </div>
+          </div>
+
+          <a href="https://instagram.com/yondapple" target="_blank" rel="noopener noreferrer" 
+             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@yondapple</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 5 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
+             data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="AMEL.jpg" alt="Amalia Ramadhanti" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Amalia Ramadhanti</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Ip 13 Black 256</p>
+
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+
+          <a href="https://instagram.com/username_amel" target="_blank" rel="noopener noreferrer" 
+             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username_amel</span>
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-6 text-center text-slate-500 dark:text-slate-400 text-sm transition-colors duration-300">
+    <p>&copy; 2026 Sistem Informasi 26. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Script AOS, Lucide Icons & Toggle Dark Mode -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      once: true,
+      easing: 'ease-out-cubic',
+    });
+    lucide.createIcons();
+
+    // Fungsi Toggle Dark/Light Mode
+    function toggleDarkMode() {
+      const htmlElement = document.documentElement;
+      const themeIcon = document.getElementById('theme-icon');
+      
+      htmlElement.classList.toggle('dark');
+      
+      // Ubah ikon tombol (Matahari <-> Bulan)
+      if (htmlElement.classList.contains('dark')) {
+        themeIcon.setAttribute('data-lucide', 'sun');
+      } else {
+        themeIcon.setAttribute('data-lucide', 'moon');
+      }
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
