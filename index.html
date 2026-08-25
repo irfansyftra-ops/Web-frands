@@ -7,7 +7,6 @@
   <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Konfigurasi Tailwind untuk mendukung class 'dark' secara manual
     tailwind.config = {
       darkMode: 'class',
     }
@@ -28,7 +27,7 @@
 </head>
 <body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-white font-sans min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white flex flex-col justify-between transition-colors duration-300">
 
-  <!-- TOMBOL TOGGLE DARK/LIGHT MODE DI POJOK KANAN ATAS -->
+  <!-- TOGGLE DARK/LIGHT MODE -->
   <div class="fixed top-4 right-4 z-50">
     <button onclick="toggleDarkMode()" class="bg-slate-800 dark:bg-slate-800 text-white p-3 rounded-full shadow-lg border border-slate-700 hover:scale-110 transition duration-300 flex items-center justify-center">
       <i id="theme-icon" data-lucide="sun" class="w-5 h-5"></i>
@@ -36,17 +35,16 @@
   </div>
 
   <div>
-    <!-- HEADER DENGAN BACKGROUND FOTO BARENG -->
-    <header class="relative bg-cover bg-center py-32 px-6 text-center shadow-2xl" style="background-image: url('squad.jpeg');">
+    <!-- HEADER -->
+    <header class="relative bg-cover bg-center py-44 px-6 text-center shadow-2xl" style="background-image: url('Squad.jpeg');">
       <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-[2px]"></div>
-
       <div class="relative z-10 max-w-2xl mx-auto" data-aos="fade-down" data-aos-duration="1200">
         <h1 class="text-5xl md:text-6xl font-black text-indigo-400 tracking-wider drop-shadow-lg">PAPEPAP</h1>
         <p class="text-slate-200 mt-3 text-lg font-medium drop-shadow">"Official Circle & Squad Profile"</p>
       </div>
     </header>
 
-    <!-- MENU DASHBOARD / SQUAD STATS -->
+    <!-- DASHBOARD STATS -->
     <section class="max-w-6xl mx-auto px-6 -mt-8 relative z-20 mb-10" data-aos="fade-up" data-aos-duration="900">
       <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-2xl grid grid-cols-1 md:grid-cols-3 gap-6 text-center transition-colors duration-300">
         
@@ -55,7 +53,7 @@
             <i data-lucide="users" class="w-5 h-5"></i>
             <span class="font-bold text-sm tracking-wide uppercase">Total Anggota</span>
           </div>
-          <p class="text-2xl font-black text-slate-800 dark:text-white">16 Orang</p>
+          <p class="text-2xl font-black text-slate-800 dark:text-white">17 Orang</p>
         </div>
 
         <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
@@ -77,176 +75,408 @@
       </div>
     </section>
 
-    <!-- KONTEN ANGGOTA GENG -->
+    <!-- KONTEN UTAMA (ANGGOTA & GALERI) -->
     <main class="max-w-6xl mx-auto px-6 relative z-20 mb-20">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- JUDUL SECTION ANGGOTA -->
+      <div class="mb-8 text-center" data-aos="fade-up">
+        <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white tracking-wide">DAFTAR ANGGOTA</h2>
+        <div class="w-20 h-1 bg-indigo-500 mx-auto mt-2 rounded-full"></div>
+      </div>
+
+      <!-- GRID MEMBER CARD -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
 
         <!-- MEMBER 1 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
-             data-aos="fade-up" data-aos-duration="800">
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
               <img src="Irfan.jpg" alt="Irfan Syahfutra" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Irfan Syahfutra</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Sistem Informasi</p>
-
             <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> Badminton</p>
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> Software Engineer</p>
             </div>
           </div>
-
-          <a href="https://instagram.com/irfansyftra" target="_blank" rel="noopener noreferrer" 
-             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+          <a href="https://instagram.com/irfansyftra" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@irfansyftra</span>
           </a>
         </div>
 
         <!-- MEMBER 2 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
-             data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
               <img src="Vanni.jpeg" alt="Vannisya Rahma Haliza" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Vannisya Rahma Haliza</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Sains Komunikasi</p>
-
             <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> Nonton</p>
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> CEO</p>
             </div>
           </div>
-
-          <a href="https://instagram.com/vnnirh" target="_blank" rel="noopener noreferrer" 
-             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+          <a href="https://instagram.com/vnnirh" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@vnnirh</span>
           </a>
         </div>
 
         <!-- MEMBER 3 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
-             data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
-              <img src="images/member3.jpeg" alt="Satria Cahaya Mulia" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+              <img src="images/member3.jpeg" alt="ANGGOTA" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
             </div>
-            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Satria Cahaya Mulia</h3>
-            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Sistem Informasi</p>
-
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 3</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
             <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
             </div>
           </div>
-
-          <a href="https://instagram.com/username_satria" target="_blank" rel="noopener noreferrer" 
-             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+          <a href="https://instagram.com/username_satria" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@username_satria</span>
           </a>
         </div>
 
         <!-- MEMBER 4 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
-             data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
-              <img src="images/member4.jpeg" alt="Nanda Gadis Supriadi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+              <img src="images/member4.jpeg" alt="anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
             </div>
-            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Nanda Gadis Supriadi</h3>
-            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Sains Komunikasi</p>
-
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 4</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">-</p>
             <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> Nyanyi</p>
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> Sutradara</p>
             </div>
           </div>
-
-          <a href="https://instagram.com/yondapple" target="_blank" rel="noopener noreferrer" 
-             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@yondapple</span>
+            <span>@username-ig</span>
           </a>
         </div>
 
         <!-- MEMBER 5 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
-             data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
               <img src="AMEL.jpg" alt="Amalia Ramadhanti" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Amalia Ramadhanti</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Ip 13 Black 256</p>
-
             <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
             </div>
           </div>
-
-          <a href="https://instagram.com/amlyrm" target="_blank" rel="noopener noreferrer" 
-             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+          <a href="https://instagram.com/amlyrm" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@amlyrm</span>
           </a>
         </div>
 
         <!-- MEMBER 6 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
-             data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
               <img src="images/member4.jpeg" alt="Fikram Ali Akbar" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Fikram Ali Akbar</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Managemen</p>
-
             <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
             </div>
           </div>
-          
-          <a href="https://instagram.com/ramzzzzy_" target="_blank" rel="noopener noreferrer" 
-             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@username-ig</span>
           </a>
         </div>
 
-        <!-- MEMBER 7 (BARU) -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" 
-             data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+        <!-- MEMBER 7 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
-              <!-- Ganti nama-file-foto.jpg sesuai foto anggota baru -->
               <img src="foto-baru.jpg" alt="Farrel Ramzy" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
             </div>
-            <!-- Ganti Nama Lengkap -->
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Farrel Ramzy</h3>
-            <!-- Ganti Jurusan / Role -->
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">-</p>
-
             <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> Game</p>
               <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
             </div>
           </div>
-
-          <!-- Ganti link & username Instagram -->
-          <a href="https://instagram.com/ramzzzzy_" target="_blank" rel="noopener noreferrer" 
-             class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+          <a href="https://www.instagram.com/ramzzzzy__?igsi=a3ViYjk4aTdhYWZh" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@ramzzzzy_</span>
           </a>
         </div>
 
+        <!-- MEMBER 8 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 8</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 9 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 9</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 10 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 10</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 11 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 11</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 12 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 12</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 13 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 13</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 14 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 14</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 15 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 15</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 16 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 16</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
+        <!-- MEMBER 17 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+          <div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group">
+              <img src="foto-baru.jpg" alt="Anggota" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            </div>
+            <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Anggota ke 17</h3>
+            <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-4">Jurusan / Julukan</p>
+            <div class="space-y-2 text-sm bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎮 Hobi:</span> -</p>
+              <p class="text-slate-600 dark:text-slate-300"><span class="font-bold text-indigo-500 dark:text-indigo-400">🎯 Cita-cita:</span> -</p>
+            </div>
+          </div>
+          <a href="https://instagram.com/username-ig" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+            <span>@username-ig</span>
+          </a>
+        </div>
+
       </div>
+
+      <!-- ================= SECTION GALERY ================= -->
+      <section class="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800" data-aos="fade-up">
+        <div class="mb-10 text-center">
+          <div class="inline-flex items-center gap-2 text-indigo-500 dark:text-indigo-400 mb-2">
+            <i data-lucide="image" class="w-6 h-6"></i>
+            <span class="font-bold text-sm tracking-widest uppercase">Momen Kebersamaan</span>
+          </div>
+          <h2 class="text-4xl font-extrabold text-slate-800 dark:text-white tracking-wide">GALERY PAPEPAP</h2>
+          <div class="w-20 h-1 bg-indigo-500 mx-auto mt-3 rounded-full"></div>
+        </div>
+
+        <!-- GRID GALERI FOTO -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          
+          <!-- Foto Galeri 1 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="100">
+            <img src="squad.jpeg" alt="Galeri 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Kumpul Bareng Squad 📸</p>
+            </div>
+          </div>
+
+          <!-- Foto Galeri 2 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="200">
+            <img src="1.jpeg" alt="Galeri 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Keseruan Lainnya ✨</p>
+            </div>
+          </div>
+
+          <!-- Foto Galeri 3 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="300">
+            <img src="2.jpeg" alt="Galeri 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Momen Tak Terlupakan 🔥</p>
+            </div>
+          </div>
+
+          <!-- Foto Galeri 4 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="400">
+            <img src="3.jpeg" alt="Galeri 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Gaya Bebas 😎</p>
+            </div>
+          </div>
+
+          <!-- Foto Galeri 5 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="500">
+            <img src="4.jpeg" alt="Galeri 5" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Kekompakan Kita 🚀</p>
+            </div>
+          </div>
+
+          <!-- Foto Galeri 6 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="600">
+            <img src="5.jpeg" alt="Galeri 6" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Our Best Memories 🌟</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -255,7 +485,7 @@
     <p>&copy; 2026 Papepap 26. All Rights Reserved.</p>
   </footer>
 
-  <!-- Script AOS, Lucide Icons & Toggle Dark Mode -->
+  <!-- SCRIPT -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init({
@@ -264,14 +494,12 @@
     });
     lucide.createIcons();
 
-    // Fungsi Toggle Dark/Light Mode
     function toggleDarkMode() {
       const htmlElement = document.documentElement;
       const themeIcon = document.getElementById('theme-icon');
       
       htmlElement.classList.toggle('dark');
       
-      // Ubah ikon tombol (Matahari <-> Bulan)
       if (htmlElement.classList.contains('dark')) {
         themeIcon.setAttribute('data-lucide', 'sun');
       } else {
