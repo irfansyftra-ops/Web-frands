@@ -26,12 +26,36 @@
   </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-white font-sans min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white flex flex-col justify-between transition-colors duration-300">
-
+<!-- POPUP NOTIFIKASI ULANG TAHUN OTOMATIS -->
+  <div id="birthday-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 max-w-md w-full text-center border border-indigo-500 shadow-2xl relative">
+      <div class="w-16 h-16 bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+        🎉
+      </div>
+      <h3 id="birthday-title" class="text-2xl font-black text-slate-800 dark:text-white mb-2">Hari Spesial!</h3>
+      <p id="birthday-text" class="text-slate-600 dark:text-slate-300 text-sm mb-6">Hari ini ada anggota squad yang ulang tahun! Yuk ramaikan ucapannya!</p>
+      <button onclick="closeBirthdayModal()" class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-xl transition duration-300 shadow-lg">
+        Serbu & Ucapkan! 🚀
+      </button>
+    </div>
+  </div>
   <!-- TOGGLE DARK/LIGHT MODE -->
   <div class="fixed top-4 right-4 z-50">
     <button onclick="toggleDarkMode()" class="bg-slate-800 dark:bg-slate-800 text-white p-3 rounded-full shadow-lg border border-slate-700 hover:scale-110 transition duration-300 flex items-center justify-center">
       <i id="theme-icon" data-lucide="sun" class="w-5 h-5"></i>
     </button>
+  </div>
+
+  <!-- FLOATING MUSIC PLAYER (Pojok Kiri Bawah) -->
+  <div class="fixed bottom-5 left-5 z-50 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white p-3 rounded-full shadow-2xl flex items-center gap-3 transition-colors duration-300">
+    <button id="play-btn" onclick="toggleAudio()" class="bg-indigo-500 hover:bg-indigo-600 text-white p-2.5 rounded-full transition duration-300">
+      <i id="play-icon" data-lucide="play" class="w-4 h-4"></i>
+    </button>
+    <div class="pr-3 text-xs hidden sm:block">
+      <p class="font-bold">Squad Anthem</p>
+      <p class="text-slate-500 dark:text-slate-400 text-[10px]">Klik untuk putar musik</p>
+    </div>
+    <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
   </div>
 
   <div>
@@ -83,6 +107,38 @@
         <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white tracking-wide">DAFTAR ANGGOTA</h2>
         <div class="w-20 h-1 bg-indigo-500 mx-auto mt-2 rounded-full"></div>
       </div>
+
+      <!-- WIDGET HITUNG MUNDUR ULTAH (4 KOTAK TERPISAH) -->
+        <div class="md:col-span-3 bg-slate-100 dark:bg-slate-900/60 p-5 rounded-xl border border-slate-200 dark:border-slate-700/50 text-center shadow-lg">
+          <div class="flex items-center justify-center gap-2 text-indigo-500 dark:text-indigo-400 mb-3">
+            <i data-lucide="gift" class="w-5 h-5"></i>
+            <span class="font-bold text-sm tracking-wide uppercase">Hitung Mundur Ultah <span id="target-name" class="text-slate-700 dark:text-slate-200"></span></span>
+          </div>
+          
+          <!-- 4 Kotak Waktu (Hari, Jam, Menit, Detik) -->
+          <div class="grid grid-cols-4 gap-2 max-w-md mx-auto">
+            <!-- Kotak Hari -->
+            <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+              <span id="cd-days" class="text-xl md:text-2xl font-black text-indigo-500 block">00</span>
+              <span class="text-[10px] md:text-xs text-slate-400 uppercase font-semibold">Hari</span>
+            </div>
+            <!-- Kotak Jam -->
+            <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+              <span id="cd-hours" class="text-xl md:text-2xl font-black text-indigo-500 block">00</span>
+              <span class="text-[10px] md:text-xs text-slate-400 uppercase font-semibold">Jam</span>
+            </div>
+            <!-- Kotak Menit -->
+            <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+              <span id="cd-minutes" class="text-xl md:text-2xl font-black text-indigo-500 block">00</span>
+              <span class="text-[10px] md:text-xs text-slate-400 uppercase font-semibold">Menit</span>
+            </div>
+            <!-- Kotak Detik -->
+            <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+              <span id="cd-seconds" class="text-xl md:text-2xl font-black text-indigo-500 block">00</span>
+              <span class="text-[10px] md:text-xs text-slate-400 uppercase font-semibold">Detik</span>
+            </div>
+          </div>
+        </div>
 
       <!-- GRID MEMBER CARD -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
@@ -412,8 +468,20 @@
 
       </div>
 
+      <!-- WIDGET QUOTES / SLOGAN GENG -->
+      <section class="mb-20 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-xl text-center transition-colors duration-300" data-aos="fade-up">
+        <div class="inline-flex items-center gap-2 text-indigo-500 dark:text-indigo-400 mb-3">
+          <i data-lucide="quote" class="w-6 h-6"></i>
+          <span class="font-bold text-sm tracking-widest uppercase">Inside Jokes & Slogan</span>
+        </div>
+        <blockquote class="text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200 italic max-w-2xl mx-auto">
+          "Sekali PAPEPAP, tetap kumpul walau cuma beli es teh."
+        </blockquote>
+        <p class="mt-4 text-xs tracking-wider text-slate-400 uppercase font-bold">— Papepap Principle</p>
+      </section>
+
       <!-- ================= SECTION GALERY ================= -->
-      <section class="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800" data-aos="fade-up">
+      <section class="pt-10 border-t border-slate-200 dark:border-slate-800" data-aos="fade-up">
         <div class="mb-10 text-center">
           <div class="inline-flex items-center gap-2 text-indigo-500 dark:text-indigo-400 mb-2">
             <i data-lucide="image" class="w-6 h-6"></i>
@@ -507,6 +575,102 @@
       }
       lucide.createIcons();
     }
+
+    function toggleAudio() {
+      const audio = document.getElementById('bg-music');
+      const playIcon = document.getElementById('play-icon');
+      
+      if (audio.paused) {
+        audio.play();
+        playIcon.setAttribute('data-lucide', 'pause');
+      } else {
+        audio.pause();
+        playIcon.setAttribute('data-lucide', 'play');
+      }
+      lucide.createIcons();
+    }
+
+   
+    // --- DATA ULANG TAHUN ANGGOTA ---
+    const birthdays = [
+      { name: "Irfan Syahfutra", month: 3, day: 11 },
+      { name: "Vannisya Rahma", month: 6, day: 15 },
+      { name: "Amalya Ramadhanti", month: 9, day: 20 },
+      { name: "Farrel Ramzy", month: 12, day: 31 },
+    ];
+
+    function checkBirthdaysAndCountdown() {
+      const today = new Date();
+      const currentMonth = today.getMonth() + 1;
+      const currentDay = today.getDate();
+      const todayBirthday = birthdays.find(b => b.month === currentMonth && b.day === currentDay);
+
+      if (todayBirthday) {
+        const titleEl = document.getElementById('birthday-title');
+        const textEl = document.getElementById('birthday-text');
+        const modalEl = document.getElementById('birthday-modal');
+        
+        if(titleEl) titleEl.innerText = `🎉 Hari Ini Ultah ${todayBirthday.name}!`;
+        if(textEl) textEl.innerText = `Yuk buruan ucapkan selamat ulang tahun ke ${todayBirthday.name}!`;
+        if(modalEl) {
+          modalEl.classList.remove('hidden');
+          modalEl.classList.add('flex');
+        }
+      }
+    }
+
+    // Fungsi Hitung Mundur 4 Kotak Terpisah
+    function updateCountdown() {
+      const now = new Date();
+      let nextBirthday = null;
+      let minTimeDiff = Infinity;
+
+      birthdays.forEach(b => {
+        let bDate = new Date(now.getFullYear(), b.month - 1, b.day, 0, 0, 0);
+        if (bDate < now) {
+          bDate.setFullYear(now.getFullYear() + 1);
+        }
+        let diff = bDate - now;
+        if (diff < minTimeDiff) {
+          minTimeDiff = diff;
+          nextBirthday = b;
+        }
+      });
+
+      if (nextBirthday) {
+        const days = Math.floor(minTimeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((minTimeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((minTimeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((minTimeDiff % (1000 * 60)) / 1000);
+
+        // Masukkan angka ke masing-masing kotak
+        const dEl = document.getElementById('cd-days');
+        const hEl = document.getElementById('cd-hours');
+        const mEl = document.getElementById('cd-minutes');
+        const sEl = document.getElementById('cd-seconds');
+        const nameEl = document.getElementById('target-name');
+
+        if(dEl) dEl.innerText = String(days).padStart(2, '0');
+        if(hEl) hEl.innerText = String(hours).padStart(2, '0');
+        if(mEl) mEl.innerText = String(minutes).padStart(2, '0');
+        if(sEl) sEl.innerText = String(seconds).padStart(2, '0');
+        if(nameEl) nameEl.innerText = `(${nextBirthday.name})`;
+      }
+    }
+
+    function closeBirthdayModal() {
+      const modalEl = document.getElementById('birthday-modal');
+      if(modalEl) {
+        modalEl.classList.add('hidden');
+        modalEl.classList.remove('flex');
+      }
+    }
+
+    window.onload = function() {
+      checkBirthdaysAndCountdown();
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    };
   </script>
 </body>
 </html>
