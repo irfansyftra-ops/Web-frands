@@ -1,0 +1,12 @@
+.smooth-card {
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease;
+}
+
+.smooth-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.3);
+  border-color: rgba(99, 102, 241, 0.8);
+}
