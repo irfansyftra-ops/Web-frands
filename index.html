@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIMASENA | Digital Memory Vault & PKKMB Project</title>
 
-  <title>BIMASENA | Digital Memory Vault & Profile</title>
-
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -14,18 +14,60 @@
     }
   </script>
 
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- QRCode.js Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
+  <!-- AOS Animation CSS & JS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-white font-sans min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white flex flex-col justify-between transition-colors duration-300">
 
+  <!-- POPUP MASKOT QUIZ MODAL -->
+  <div id="quiz-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 max-w-lg w-full border border-indigo-500 shadow-2xl relative transition-all">
+      <button onclick="closeQuizModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div id="quiz-intro" class="text-center">
+        <div class="w-20 h-20 bg-indigo-500/10 text-4xl rounded-full flex items-center justify-center mx-auto mb-4 border border-indigo-500/30">
+          🛡️
+        </div>
+        <h3 class="text-2xl font-black text-slate-800 dark:text-white mb-2">Quiz Maskot BIMASENA</h3>
+        <p class="text-slate-600 dark:text-slate-300 text-sm mb-6">Jawab 3 pertanyaan singkat untuk mengetahui karakter maskot BIMASENA mana yang paling cocok dengan kepribadianmu!</p>
+        <button onclick="startQuiz()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-8 rounded-xl transition duration-300 shadow-lg">
+          Mulai Kuis 🚀
+        </button>
+      </div>
+
+      <div id="quiz-body" class="hidden">
+        <div class="flex items-center justify-between mb-4">
+          <span id="quiz-step" class="text-xs font-bold text-indigo-500 uppercase tracking-wider">Pertanyaan 1/3</span>
+        </div>
+        <h4 id="quiz-question" class="text-lg font-bold text-slate-800 dark:text-white mb-4">--</h4>
+        <div id="quiz-options" class="space-y-3"></div>
+      </div>
+
+      <div id="quiz-result" class="hidden text-center">
+        <div id="result-icon" class="text-5xl mb-3">⚡</div>
+        <h3 id="result-title" class="text-2xl font-extrabold text-slate-800 dark:text-white mb-1">--</h3>
+        <p id="result-desc" class="text-slate-600 dark:text-slate-300 text-sm mb-6">--</p>
+        <button onclick="resetQuiz()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2.5 px-6 rounded-xl text-sm transition duration-300">
+          Coba Lagi 🔄
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP NOTIFIKASI ULANG TAHUN -->
   <div id="birthday-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 max-w-md w-full text-center border border-indigo-500 shadow-2xl relative">
       <div class="w-16 h-16 bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
@@ -43,6 +85,7 @@
     </div>
   </div>
 
+  <!-- POPUP QR CODE -->
   <div id="qr-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full text-center border border-indigo-500 shadow-2xl relative">
       <button onclick="closeQRModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white">
@@ -54,7 +97,13 @@
     </div>
   </div>
 
+  <!-- CONTROL BUTTONS TOP-RIGHT -->
   <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+    <!-- TOMBOL ANGGOTA BARU DI SINI -->
+    <a href="#anggota" class="bg-slate-800 text-white p-3 rounded-full shadow-lg border border-slate-700 hover:scale-110 transition duration-300 flex items-center justify-center" title="Lihat Anggota">
+      <i data-lucide="users" class="w-5 h-5"></i>
+    </a>
+
     <button onclick="openQRModal()" class="bg-slate-800 text-white p-3 rounded-full shadow-lg border border-slate-700 hover:scale-110 transition duration-300 flex items-center justify-center" title="Tampilkan QR Code">
       <i data-lucide="qr-code" class="w-5 h-5"></i>
     </button>
@@ -66,20 +115,20 @@
     </button>
   </div>
 
+  <!-- FLOATING MUSIC PLAYER -->
   <div class="fixed bottom-5 left-5 z-50 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white p-3 rounded-full shadow-2xl flex items-center gap-3 transition-colors duration-300">
     <button id="play-btn" onclick="toggleAudio()" class="bg-indigo-500 hover:bg-indigo-600 text-white p-2.5 rounded-full transition duration-300">
       <i id="play-icon" data-lucide="play" class="w-4 h-4"></i>
     </button>
-
     <div class="pr-3 text-xs hidden sm:block">
       <p class="font-bold">Squad Anthem</p>
       <p class="text-slate-500 dark:text-slate-400 text-[10px]">Putar Musik Kenangan</p>
     </div>
-
     <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
   </div>
 
   <div>
+    <!-- HEADER -->
     <header class="relative bg-cover bg-center py-60 px-6 text-center shadow-2xl" style="background-image: url('Squad.jpeg');">
       <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-[2px]"></div>
       <div class="relative z-10 max-w-2xl mx-auto" data-aos="fade-down" data-aos-duration="1200">
@@ -90,11 +139,12 @@
           BIMASENA
         </h1>
         <p class="text-slate-200 mt-3 text-lg font-medium drop-shadow">
-          "Ruang Abadi Kenangan & Profile Squad"
+          "Ruang Abadi Kenangan & Profile Squad PKKMB"
         </p>
       </div>
     </header>
 
+    <!-- DASHBOARD STATS -->
     <section class="max-w-6xl mx-auto px-6 -mt-8 relative z-20 mb-10" data-aos="fade-up" data-aos-duration="900">
       <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-2xl grid grid-cols-1 md:grid-cols-3 gap-6 text-center transition-colors duration-300">
         <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50">
@@ -118,13 +168,185 @@
             <i data-lucide="calendar" class="w-5 h-5"></i>
             <span class="font-bold text-sm tracking-wide uppercase">Kelahiran</span>
           </div>
-          <p class="text-2xl font-black text-slate-800 dark:text-white">2007 2008</p>
+          <p class="text-2xl font-black text-slate-800 dark:text-white">2007 - 2008</p>
         </div>
       </div>
     </section>
 
+    <!-- MAIN CONTENT -->
     <main class="max-w-6xl mx-auto px-6 relative z-20 mb-20">
 
+      <!-- SEKSI TIMELINE PERJALANAN SQUAD -->
+      <section class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-2xl mb-12" data-aos="fade-up">
+        <div class="mb-10 text-center">
+          <div class="inline-flex items-center gap-2 text-indigo-500 dark:text-indigo-400 mb-2">
+            <i data-lucide="history" class="w-6 h-6"></i>
+            <span class="font-bold text-sm tracking-widest uppercase">Perjalanan BIMASENA</span>
+          </div>
+          <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-wide">KILAS BALIK SQUAD</h2>
+          <div class="w-20 h-1 bg-indigo-500 mx-auto mt-2 rounded-full"></div>
+        </div>
+
+        <div class="relative border-l-2 border-indigo-500/40 ml-4 md:ml-32 space-y-8">
+          
+          <!-- ITEM TIMELINE 1 -->
+          <div class="relative pl-8 group" data-aos="fade-up">
+            <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm shadow-lg group-hover:scale-125 transition-transform duration-300">
+              🤝
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm transition-all duration-300 hover:border-indigo-500">
+              <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">Awal Temu • PKKMB Hari Ke-1</span>
+              <h3 class="text-lg font-bold text-slate-800 dark:text-white mt-1">Pembentukan Kelompok BIMASENA</h3>
+              <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                Pertama kali dikumpulkan dalam satu squad bersama Fasilitator Kak Fauziah. Masih saling canggung dan belum tahu karakter masing-masing.
+              </p>
+            </div>
+          </div>
+
+          <!-- ITEM TIMELINE 2 -->
+          <div class="relative pl-8 group" data-aos="fade-up" data-aos-delay="100">
+            <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm shadow-lg group-hover:scale-125 transition-transform duration-300">
+              ☕
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm transition-all duration-300 hover:border-indigo-500">
+              <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">Momen Krusial • TIKUM Juanda</span>
+              <h3 class="text-lg font-bold text-slate-800 dark:text-white mt-1">Nongkrong & Diskusi Perdana</h3>
+              <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                Pencetus slogan kekeluargaan kita! Tempat pertama kali kita ngobrol santai sampai tercetus inside joke "TIKUM Juanda".
+              </p>
+            </div>
+          </div>
+
+          <!-- ITEM TIMELINE 3 -->
+          <div class="relative pl-8 group" data-aos="fade-up" data-aos-delay="200">
+            <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm shadow-lg group-hover:scale-125 transition-transform duration-300">
+              🎯
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm transition-all duration-300 hover:border-indigo-500">
+              <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">Eksekusi Projek • SDGs No. 8</span>
+              <h3 class="text-lg font-bold text-slate-800 dark:text-white mt-1">Riset & Branding Kantin MNC</h3>
+              <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                Bahu-membahu mengerjakan tugas projek PKKMB, mulai dari observasi langsung hingga merancang konten visual Instagram Kantin MNC University.
+              </p>
+            </div>
+          </div>
+
+          <!-- ITEM TIMELINE 4 -->
+          <div class="relative pl-8 group" data-aos="fade-up" data-aos-delay="300">
+            <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm shadow-lg group-hover:scale-125 transition-transform duration-300">
+              🛍️
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm transition-all duration-300 hover:border-indigo-500">
+              <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">Celebration • Post-PKKMB</span>
+              <h3 class="text-lg font-bold text-slate-800 dark:text-white mt-1">Hangout ke AEON Tanjung Barat</h3>
+              <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                Merayakan keberhasilan menyelesaikan projek PKKMB dengan jalan-jalan dan mampir ke AEON Tanjung Barat. Momen makin solid!
+              </p>
+            </div>
+          </div>
+
+          <!-- ITEM TIMELINE 5 -->
+          <div class="relative pl-8 group" data-aos="fade-up" data-aos-delay="400">
+            <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm shadow-lg group-hover:scale-125 transition-transform duration-300">
+              🌐
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm transition-all duration-300 hover:border-emerald-500">
+              <span class="text-xs font-bold text-emerald-500 uppercase tracking-wider">Masa Depan • Perkuliahan</span>
+              <h3 class="text-lg font-bold text-slate-800 dark:text-white mt-1">Digital Memory Vault Dirilis</h3>
+              <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                Web vault ini dibuat untuk mengabadikan semua kenangan, projek, dan profile squad BIMASENA agar terus dikenang selamanya.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SEKSI MASKOT SQUAD -->
+      <section class="bg-gradient-to-br from-indigo-900/90 to-slate-900/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-indigo-500/50 shadow-2xl mb-12 text-white" data-aos="fade-up">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div class="flex-1 space-y-4 text-center md:text-left">
+            <span class="px-3 py-1 bg-indigo-500/30 border border-indigo-400/40 rounded-full text-xs font-semibold uppercase tracking-wider text-indigo-300">
+              Official Mascot Squad
+            </span>
+            <h2 class="text-3xl font-black text-white">Meet "SENA" — Maskot BIMASENA</h2>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              <strong>SENA</strong> adalah gabungan dari ksatria tangguh Bima dan semangat keberanian. Melambangkan kerja sama, kreativitas, dan solidaritas squad BIMASENA dalam menaklukkan PKKMB hingga perkuliahan!
+            </p>
+            <div class="pt-2 flex flex-wrap justify-center md:justify-start gap-3">
+              <button onclick="openQuizModal()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold py-2.5 px-5 rounded-xl transition duration-300 flex items-center gap-2 shadow-lg">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> Cek Kemiripan Maskot Mu!
+              </button>
+            </div>
+          </div>
+
+          <!-- KARTU MASKOT -->
+          <div class="w-full md:w-64 bg-slate-800/80 p-5 rounded-2xl border border-indigo-500/30 text-center shadow-inner shrink-0">
+            <div class="w-24 h-24 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full mx-auto flex items-center justify-center text-5xl mb-3 shadow-lg">
+              🛡️
+            </div>
+            <h3 class="font-extrabold text-lg text-indigo-300">SENA The Guardian</h3>
+            <p class="text-[11px] text-slate-400 mt-1">"Kerja keras bareng, sukses rame-rame!"</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEKSI PROJEK RISET PKKMB (SDGs No. 8 & Kantin MNC) -->
+      <section class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-2xl mb-12" data-aos="fade-up">
+        <div class="mb-6 pb-4 border-b border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-amber-500/10 text-amber-500 rounded-xl">
+              <i data-lucide="target" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <span class="inline-block px-3 py-0.5 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 mb-1">
+                SDGs No. 8: Pekerjaan Layak & Pertumbuhan Ekonomi
+              </span>
+              <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Projek Riset PKKMB - BIMASENA</h2>
+            </div>
+          </div>
+          <span class="px-4 py-1.5 text-xs font-bold rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-400">
+            Completed Project
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4">
+            <h3 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+              <i data-lucide="store" class="w-5 h-5 text-indigo-500"></i> Digital Branding Kantin MNC University
+            </h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+              Selama kegiatan PKKMB, kelompok <strong>BIMASENA</strong> melakukan riset pilar SDGs No. 8 dengan berfokus pada pengembangan unit usaha lokal kampus. Kami mengangkat permasalahan <strong>Kantin MNC University</strong> yang masih baru dan memerlukan strategi pemasaran digital yang tepat.
+            </p>
+            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+              Sebagai solusi nyata, tim kami membantu meningkatkan kesadaran merek (<em>brand awareness</em>) dengan membangun dan merancang konten Instagram resmi untuk mengenalkan menu serta suasana kantin kepada seluruh mahasiswa.
+            </p>
+          </div>
+
+          <div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
+            <div>
+              <h4 class="font-bold text-sm text-slate-800 dark:text-white mb-3 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-indigo-500"></i> Kontribusi Tim
+              </h4>
+              <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-2 mb-4">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                  <span>Riset lapangan & observasi kebutuhan branding kantin.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                  <span>Pembuatan struktur visual & strategi konten Instagram.</span>
+                </li>
+              </ul>
+            </div>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-md hover:opacity-95 transition-opacity">
+              <i data-lucide="instagram" class="w-4 h-4"></i> Kunjungi IG Kantin MNC
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- MADING PESAN & KENANGAN -->
       <section class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700 shadow-2xl mb-12" data-aos="fade-up">
         <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
           <div class="flex items-center gap-3">
@@ -138,6 +360,7 @@
           </div>
         </div>
 
+        <!-- FORM KIRIM PESAN -->
         <form id="memory-form" onsubmit="addMemoryNote(event)" class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
           <input type="text" id="note-sender" placeholder="Nama Kamu..." required class="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 dark:text-white">
           <input type="text" id="note-text" placeholder="Tulis pesan kenangan / pesan lucu di sini..." required class="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 dark:text-white md:col-span-2">
@@ -146,14 +369,13 @@
           </button>
         </form>
 
+        <!-- CONTAINER PESAN TERSIMPAN -->
         <div id="notes-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <div class="bg-amber-50 dark:bg-slate-900/80 border border-amber-200 dark:border-slate-700 p-4 rounded-xl shadow-sm">
-            <p class="text-xs text-slate-600 dark:text-slate-300 italic mb-3">"Jangan lupa agenda wajib nongkrong di TIKUM Juanda ya guys!"</p>
-            <span class="text-[10px] font-bold text-indigo-500 uppercase">— Squad Admin</span>
-          </div>
+          <!-- Diisi via JS -->
         </div>
       </section>
 
+      <!-- MEMBER PROFIL UTAMA (FASILITATOR) -->
       <section class="flex justify-center mb-14" data-aos="fade-up" data-aos-duration="900">
         <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border-2 border-indigo-500 dark:border-indigo-400 shadow-2xl w-full max-w-sm flex flex-col justify-between transition-colors duration-300">
           <div class="text-center mb-4">
@@ -174,87 +396,96 @@
         </div>
       </section>
 
+      <!-- JUDUL DAFTAR ANGGOTA -->
       <div class="mb-8 text-center" data-aos="fade-up">
         <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white tracking-wide">DAFTAR ANGGOTA</h2>
         <div class="w-20 h-1 bg-indigo-500 mx-auto mt-2 rounded-full"></div>
       </div>
 
-      <div class="md:col-span-3 bg-slate-100 dark:bg-slate-900/60 p-5 rounded-xl border border-slate-200 dark:border-slate-700/50 text-center shadow-lg mb-8" data-aos="fade-up">
-        <div class="flex items-center justify-center gap-2 text-indigo-500 dark:text-indigo-400 mb-3">
-          <i data-lucide="gift" class="w-5 h-5"></i>
-          <span class="font-bold text-sm tracking-wide uppercase">
-            Hitung Mundur Ultah <span id="target-name" class="text-slate-700 dark:text-slate-200"></span>
-          </span>
-        </div>
+      <!-- COUNTDOWN ULANG TAHUN -->
+<div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-xl border border-slate-200 dark:border-slate-700/50 text-center shadow-lg mb-8" data-aos="fade-up">
+  <div class="flex items-center justify-center gap-2 text-indigo-500 dark:text-indigo-400 mb-3">
+    <i data-lucide="gift" class="w-5 h-5"></i>
+    <span class="font-bold text-sm tracking-wide uppercase">
+      <span id="target-name" class="text-indigo-400 font-extrabold"></span>
+    </span>
+  </div>
 
-        <div class="grid grid-cols-4 gap-2 max-w-md mx-auto">
-          <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
-            <span id="cd-days" class="text-xl md:text-2xl font-black text-indigo-500 block">00</span>
-            <span class="text-[10px] md:text-xs text-slate-400 uppercase font-semibold">Hari</span>
-          </div>
-          <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
-            <span id="cd-hours" class="text-xl md:text-2xl font-black text-indigo-500 block">00</span>
-            <span class="text-[10px] md:text-xs text-slate-400 uppercase font-semibold">Jam</span>
-          </div>
-          <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
-            <span id="cd-minutes" class="text-xl md:text-2xl font-black text-indigo-500 block">00</span>
-            <span class="text-[10px] md:text-xs text-slate-400 uppercase font-semibold">Menit</span>
-          </div>
-          <div class="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
-            <span id="cd-seconds" class="text-xl md:text-2xl font-black text-indigo-500 block">00</span>
-            <span class="text-[10px] md:text-xs text-slate-400 uppercase font-semibold">Detik</span>
-          </div>
-        </div>
-      </div>
+  <div class="grid grid-cols-4 gap-2 max-w-sm mx-auto">
+    <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+      <span id="cd-days" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
+      <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Hari</span>
+    </div>
+    <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+      <span id="cd-hours" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
+      <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Jam</span>
+    </div>
+    <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+      <span id="cd-minutes" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
+      <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Menit</span>
+    </div>
+    <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+      <span id="cd-seconds" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
+      <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Detik</span>
+    </div>
+  </div>
+</div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
+      <!-- Pasang ID di judul ini -->
+      <h2 id="anggota" class="text-2xl font-bold text-center mb-8">Anggota BIMASENA</h2>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
+
+        <!-- MEMBER 1 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
-              <img src="Irfan.jpg" alt="Irfan Syahfutra" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+              <img src="Irfan.jpg" alt="Irfan Syahfutra" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Irfan Syahfutra</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sistem Informasi</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Siap gaskeun kapan pun diajak kumpul."</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"P, Juanda."</p>
           </div>
-          <a href="https://instagram.com/irfansyftra" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/irfansyftra" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@irfansyftra</span>
           </a>
         </div>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-delay="100">
+        <!-- MEMBER 2 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
-              <img src="Sehan.jpeg" alt="Muhamad Syaikhon Ramadhan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+              <img src="Sehan.jpeg" alt="Muhamad Syaikhon Ramadhan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Muhamad Syaikhon</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">DKV</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Anak kreatif penentu estetika visual."</p>
           </div>
-          <a href="https://www.instagram.com/syaikhonmuhamad" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/syaikhonmuhamad" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@syaikhonmuhamad</span>
           </a>
         </div>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-delay="200">
+        <!-- MEMBER 3 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
-              <img src="Tabby.jpeg" alt="Tabby Jenovan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+              <img src="Tabby.jpeg" alt="Tabby Jenovan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Tabby Jenovan</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">DKV</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Mencairkan suasana kalau lagi sepi."</p>
           </div>
-          <a href="https://www.instagram.com/jenovan04._" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/jenovan04._" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@jenovan04._</span>
           </a>
         </div>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-delay="300">
+        <!-- MEMBER 4 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 font-bold text-2xl">
               AR
@@ -263,13 +494,14 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Manajemen</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Penyusun rencana dan perorganisir ulung."</p>
           </div>
-          <a href="https://www.instagram.com/a.ndine__" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/a.ndine__" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@a.ndine__</span>
           </a>
         </div>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-delay="400">
+        <!-- MEMBER 5 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 font-bold text-2xl">
               TC
@@ -278,13 +510,14 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sains Komunikasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Penghubung komunikasi yang selalu ramah."</p>
           </div>
-          <a href="https://www.instagram.com/tiaractrr" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/tiaractrr" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@tiaractrr</span>
           </a>
         </div>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-delay="500">
+        <!-- MEMBER 6 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 font-bold text-2xl">
               AC
@@ -293,13 +526,14 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sistem Informasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Anak IT penolong urusan teknis."</p>
           </div>
-          <a href="https://www.instagram.com/llysaa.chrnii" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/llysaa.chrnii" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@llysaa.chrnii</span>
           </a>
         </div>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-delay="600">
+        <!-- MEMBER 7 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 font-bold text-2xl">
               FA
@@ -308,13 +542,14 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sains Komunikasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Pendengar dan penyampai cerita yang hangat."</p>
           </div>
-          <a href="https://www.instagram.com/fthyadiba" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/fthyadiba" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@fthyadiba</span>
           </a>
         </div>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-delay="700">
+        <!-- MEMBER 8 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 font-bold text-2xl">
               ZW
@@ -323,13 +558,14 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sains Komunikasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Selalu ceria dan penyemangat kawan-kawan."</p>
           </div>
-          <a href="https://www.instagram.com/zaharah_308" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/zaharah_308" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@zaharah_308</span>
           </a>
         </div>
 
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up" data-aos-delay="800">
+        <!-- MEMBER 9 -->
+        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 font-bold text-2xl">
               IP
@@ -338,7 +574,7 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Akuntansi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Penyimpan rahasia keuangan squad."</p>
           </div>
-          <a href="https://www.instagram.com/isnaaaptr_" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium py-2 px-4 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+          <a href="https://www.instagram.com/isnaaaptr_" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@isnaaaptr_</span>
           </a>
@@ -346,6 +582,7 @@
 
       </div>
 
+      <!-- INSIDE JOKES & SLOGAN -->
       <section class="mb-20 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-xl text-center transition-colors duration-300" data-aos="fade-up">
         <div class="inline-flex items-center gap-2 text-indigo-500 dark:text-indigo-400 mb-3">
           <i data-lucide="quote" class="w-6 h-6"></i>
@@ -357,6 +594,7 @@
         <p class="mt-4 text-xs tracking-wider text-slate-400 uppercase font-bold">— BIMASENA Principle</p>
       </section>
 
+      <!-- GALERI FOTO (LENGKAP 9 FOTO) -->
       <section class="pt-10 border-t border-slate-200 dark:border-slate-800" data-aos="fade-up">
         <div class="mb-10 text-center">
           <div class="inline-flex items-center gap-2 text-indigo-500 dark:text-indigo-400 mb-2">
@@ -368,103 +606,308 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          
+          <!-- FOTO 1 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in">
+            <img src="Squad.jpeg" alt="Galeri 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+1'">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Foto Utama Squad 📸</p>
+            </div>
+          </div>
+
+          <!-- FOTO 2 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="50">
+            <img src="1.jpeg" alt="Galeri 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+2'">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Riset Kantin MNC ✨</p>
+            </div>
+          </div>
+
+          <!-- FOTO 3 -->
           <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="100">
-            <img src="Squad.jpeg" alt="Galeri 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <img src="2.jpeg" alt="Galeri 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+3'">
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <p class="text-white font-medium text-sm">Kumpul Bareng Squad 📸</p>
+              <p class="text-white font-medium text-sm">Diskusi Kelompok PKKMB 🔥</p>
             </div>
           </div>
 
+          <!-- FOTO 4 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="150">
+            <img src="3.jpeg" alt="Galeri 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+4'">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Agenda Squad 🎉</p>
+            </div>
+          </div>
+
+          <!-- FOTO 5 -->
           <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="200">
-            <img src="1.jpeg" alt="Galeri 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <img src="4.jpeg" alt="Galeri 5" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+5'">
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <p class="text-white font-medium text-sm">Keseruan Lainnya ✨</p>
+              <p class="text-white font-medium text-sm">Proses Pembuatan Konten ☕</p>
             </div>
           </div>
 
+          <!-- FOTO 6 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="250">
+            <img src="5.jpeg" alt="Galeri 6" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+6'">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Nongkrong Bareng 🚀</p>
+            </div>
+          </div>
+
+          <!-- FOTO 7 -->
           <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="300">
-            <img src="2.jpeg" alt="Galeri 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <img src="6.jpeg" alt="Galeri 7" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+7'">
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <p class="text-white font-medium text-sm">Momen Tak Terlupakan 🔥</p>
+              <p class="text-white font-medium text-sm">Momen Kebersamaan ❤️</p>
             </div>
           </div>
 
+          <!-- FOTO 8 -->
+          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="350">
+            <img src="7.jpeg" alt="Galeri 8" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+8'">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <p class="text-white font-medium text-sm">Kenangan Abadi 🌟</p>
+            </div>
+          </div>
+
+          <!-- FOTO 9 -->
           <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="400">
-            <img src="3.jpeg" alt="Galeri 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
+            <img src="8.jpeg" alt="Galeri 9" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.src='https://via.placeholder.com/600x400?text=BIMASENA+9'">
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <p class="text-white font-medium text-sm">Gaya Bebas 😎</p>
+              <p class="text-white font-medium text-sm">BIMASENA Forever 🤙</p>
             </div>
           </div>
 
-          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="500">
-            <img src="4.jpeg" alt="Galeri 5" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <p class="text-white font-medium text-sm">Kekompakan Kita 🚀</p>
-            </div>
-          </div>
-
-          <div class="group relative overflow-hidden rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 aspect-video bg-slate-200 dark:bg-slate-800" data-aos="zoom-in" data-aos-delay="600">
-            <img src="6.jpeg" alt="Galeri 6" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out">
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <p class="text-white font-medium text-sm">Our Best Memories 🌟</p>
-            </div>
-          </div>
         </div>
       </section>
+
     </main>
   </div>
 
-  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-6 text-center text-slate-500 dark:text-slate-400 text-sm transition-colors duration-300">
-    <p>&copy; 2026 BIMASENA 37. Abadi Dalam Kenangan.</p>
-  </footer>
+  <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-black transition-colors duration-300 rounded-2xl">
+      <div class="max-w-6xl mx-auto px-6">
+        <p>© 2026 BIMASENA SQUAD - MNC University. All rights reserved.</p>
+      </div>
+    </footer>
 
+  <!-- JAVASCRIPT LOGIC -->
   <script>
-    function addMemoryNote(e) {
-      e.preventDefault();
-      const sender = document.getElementById('note-sender').value;
-      const text = document.getElementById('note-text').value;
+    // Initialize AOS & Lucide Icons
+    AOS.init({ duration: 800, once: true });
+    lucide.createIcons();
 
-      if (!sender || !text) return;
-
-      const note = { sender, text };
-      let notes = JSON.parse(localStorage.getItem('bimasena_notes') || '[]');
-      notes.unshift(note);
-      localStorage.setItem('bimasena_notes', JSON.stringify(notes));
-
-      document.getElementById('note-sender').value = '';
-      document.getElementById('note-text').value = '';
-      renderNotes();
+    // DARK MODE TOGGLE
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const themeIcon = document.getElementById('theme-icon');
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        themeIcon.setAttribute('data-lucide', 'moon');
+      } else {
+        html.classList.add('dark');
+        themeIcon.setAttribute('data-lucide', 'sun');
+      }
+      lucide.createIcons();
     }
+
+    // AUDIO PLAYER LOGIC
+    const music = document.getElementById('bg-music');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    let isPlaying = false;
+
+    function toggleAudio() {
+      if (isPlaying) {
+        music.pause();
+        playIcon.setAttribute('data-lucide', 'play');
+      } else {
+        music.play();
+        playIcon.setAttribute('data-lucide', 'pause');
+      }
+      isPlaying = !isPlaying;
+      lucide.createIcons();
+    }
+
+    // MADING PESAN & LOCAL STORAGE
+    let notes = JSON.parse(localStorage.getItem('bimasena_notes')) || [
+      { sender: 'Irfan', text: 'Semangat terus kawan-kawan BIMASENA!' },
+      { sender: 'Tabby', text: 'Jangan lupa tikuumm Juanda yaa!' }
+    ];
 
     function renderNotes() {
       const container = document.getElementById('notes-container');
-      let notes = JSON.parse(localStorage.getItem('bimasena_notes') || '[]');
-      
-      let html = `
-        <div class="bg-amber-50 dark:bg-slate-900/80 border border-amber-200 dark:border-slate-700 p-4 rounded-xl shadow-sm">
-          <p class="text-xs text-slate-600 dark:text-slate-300 italic mb-3">"Jangan lupa agenda wajib nongkrong di TIKUM Juanda ya guys!"</p>
-          <span class="text-[10px] font-bold text-indigo-500 uppercase">— Squad Admin</span>
-        </div>
-      `;
-
-      notes.forEach(n => {
-        html += `
-          <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 rounded-xl shadow-sm">
-            <p class="text-xs text-slate-600 dark:text-slate-300 italic mb-3">"${n.text}"</p>
-            <span class="text-[10px] font-bold text-indigo-400 uppercase">— ${n.sender}</span>
-          </div>
+      if (!container) return;
+      container.innerHTML = '';
+      notes.forEach(note => {
+        const div = document.createElement('div');
+        div.className = 'bg-slate-100 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative';
+        div.innerHTML = `
+          <p class="text-xs text-indigo-500 font-bold mb-1">@${note.sender}</p>
+          <p class="text-sm text-slate-700 dark:text-slate-200">${note.text}</p>
         `;
+        container.appendChild(div);
       });
-
-      container.innerHTML = html;
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      renderNotes();
-    });
+    function addMemoryNote(e) {
+      e.preventDefault();
+      const senderInput = document.getElementById('note-sender');
+      const textInput = document.getElementById('note-text');
+      
+      if (senderInput.value.trim() && textInput.value.trim()) {
+        notes.unshift({ sender: senderInput.value.trim(), text: textInput.value.trim() });
+        localStorage.setItem('bimasena_notes', JSON.stringify(notes));
+        renderNotes();
+        senderInput.value = '';
+        textInput.value = '';
+      }
+    }
+    renderNotes();
+
+    // SHARE WEBSITE & QR MODAL
+    function shareWebsite() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'BIMASENA Digital Vault',
+          url: window.location.href
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Tautan web berhasil disalin!');
+      }
+    }
+
+    let qrGenerated = false;
+    function openQRModal() {
+      document.getElementById('qr-modal').classList.remove('hidden');
+      document.getElementById('qr-modal').classList.add('flex');
+      if (!qrGenerated) {
+        new QRCode(document.getElementById("qrcode"), {
+          text: window.location.href,
+          width: 160,
+          height: 160
+        });
+        qrGenerated = true;
+      }
+    }
+
+    function closeQRModal() {
+      document.getElementById('qr-modal').classList.add('hidden');
+      document.getElementById('qr-modal').classList.remove('flex');
+    }
+
+    function closeBirthdayModal() {
+      document.getElementById('birthday-modal').classList.add('hidden');
+      document.getElementById('birthday-modal').classList.remove('flex');
+    }
+
+    // LOGIK KUIS MASKOT
+    const quizQuestions = [
+      {
+        question: "Gaya nongkrong favoritmu saat akhir pekan?",
+        options: [
+          { text: "Nongkrong santai di cafe / TIKUM Juanda", mascot: "Sena Santuy", icon: "☕" },
+          { text: "Eksplor tempat hits / AEON Tanjung Barat", mascot: "Sena Eksplorer", icon: "🗺️" },
+          { text: "Fokus ngerjain tugas / riset bareng", mascot: "Sena Strategis", icon: "🎯" }
+        ]
+      },
+      {
+        question: "Apa peran utamamu pas kerja kelompok?",
+        options: [
+          { text: "Bikin desain / konten yang estetik", mascot: "Sena Eksplorer", icon: "🎨" },
+          { text: "Ngeorganisir ide & bagi tugas", mascot: "Sena Strategis", icon: "📊" },
+          { text: "Mencairkan suasana & penyemangat", mascot: "Sena Santuy", icon: "🔥" }
+        ]
+      },
+      {
+        question: "Minuman favorit pas lagi ngumpul?",
+        options: [
+          { text: "Kopi Susu Gula Aren", mascot: "Sena Santuy", icon: "🥤" },
+          { text: "Matcha / Boba Tea", mascot: "Sena Eksplorer", icon: "🧋" },
+          { text: "Air Mineral dingin biar fokus", mascot: "Sena Strategis", icon: "💧" }
+        ]
+      }
+    ];
+
+    let currentStep = 0;
+    let scores = { "Sena Santuy": 0, "Sena Eksplorer": 0, "Sena Strategis": 0 };
+
+    function openQuizModal() {
+      resetQuiz();
+      document.getElementById('quiz-modal').classList.remove('hidden');
+      document.getElementById('quiz-modal').classList.add('flex');
+    }
+
+    function closeQuizModal() {
+      document.getElementById('quiz-modal').classList.add('hidden');
+      document.getElementById('quiz-modal').classList.remove('flex');
+    }
+
+    function startQuiz() {
+      document.getElementById('quiz-intro').classList.add('hidden');
+      document.getElementById('quiz-body').classList.remove('hidden');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = quizQuestions[currentStep];
+      document.getElementById('quiz-step').innerText = `Pertanyaan ${currentStep + 1}/3`;
+      document.getElementById('quiz-question').innerText = q.question;
+
+      const optsContainer = document.getElementById('quiz-options');
+      optsContainer.innerHTML = '';
+
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition font-medium text-xs md:text-sm text-slate-800 dark:text-white flex items-center gap-3";
+        btn.innerHTML = `<span class="text-xl">${opt.icon}</span> <span>${opt.text}</span>`;
+        btn.onclick = () => answerQuiz(opt.mascot);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function answerQuiz(mascot) {
+      scores[mascot]++;
+      currentStep++;
+      if (currentStep < quizQuestions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('quiz-body').classList.add('hidden');
+      document.getElementById('quiz-result').classList.remove('hidden');
+
+      let winner = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+
+      if (winner === "Sena Santuy") {
+        document.getElementById('result-icon').innerText = "😎";
+        document.getElementById('result-title').innerText = "Karakter: SENA Santuy";
+        document.getElementById('result-desc').innerText = "Kamu tipe yang tenang, santai tapi tetep beres tugasnya! Pencair suasana saat kumpul squad.";
+      } else if (winner === "Sena Eksplorer") {
+        document.getElementById('result-icon').innerText = "🚀";
+        document.getElementById('result-title').innerText = "Karakter: SENA Eksplorer";
+        document.getElementById('result-desc').innerText = "Penuh ide kreatif, suka mencoba hal baru, dan langganan ngajak main ke tempat hits!";
+      } else {
+        document.getElementById('result-icon').innerText = "🛡️";
+        document.getElementById('result-title').innerText = "Karakter: SENA Strategis";
+        document.getElementById('result-desc').innerText = "Fokus, terstruktur, dan diandalkan pas kerja projek. Pilar utama penentu keberhasilan squad!";
+      }
+    }
+
+    function resetQuiz() {
+      currentStep = 0;
+      scores = { "Sena Santuy": 0, "Sena Eksplorer": 0, "Sena Strategis": 0 };
+      document.getElementById('quiz-intro').classList.remove('hidden');
+      document.getElementById('quiz-body').classList.add('hidden');
+      document.getElementById('quiz-result').classList.add('hidden');
+    }
   </script>
 
   <script src="script.js"></script>
 </body>
-
 </html>

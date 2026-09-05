@@ -1,220 +1,108 @@
-/* ===============================
-   1. INITIALIZATION (AOS, LUCIDE, TEMA)
-=============================== */
-document.addEventListener('DOMContentLoaded', () => {
-  // Init AOS Animation
-  if (typeof AOS !== 'undefined') {
-    AOS.init({
-      duration: 800,
-      once: true,
-      offset: 100
-    });
-  }
-  
-  // Init Lucide Icons
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
-
-  // Load Simpanan Theme & Jalankan Countdown
-  initTheme();
-  startBirthdayCountdown();
-});
-
-/* ===============================
-   2. DARK / LIGHT MODE TOGGLE
-=============================== */
-function initTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  const themeIcon = document.getElementById('theme-icon');
-
-  if (savedTheme === 'light') {
-    document.documentElement.classList.remove('dark');
-    if (themeIcon) themeIcon.setAttribute('data-lucide', 'moon');
-  } else {
-    document.documentElement.classList.add('dark');
-    if (themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
-  }
-
-  if (typeof lucide !== 'undefined') lucide.createIcons();
-}
-
-function toggleDarkMode() {
-  const html = document.documentElement;
-  const themeIcon = document.getElementById('theme-icon');
-  
-  html.classList.toggle('dark');
-  const isDark = html.classList.contains('dark');
-
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
-  if (themeIcon) {
-    themeIcon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-  }
-  
-  if (typeof lucide !== 'undefined') lucide.createIcons();
-}
-
-/* ===============================
-   3. FLOATING MUSIC PLAYER
-=============================== */
-function toggleAudio() {
-  const audio = document.getElementById('bg-music');
-  const playIcon = document.getElementById('play-icon');
-
-  if (!audio) return;
-  
-  if (audio.paused) {
-    audio.play();
-    if (playIcon) playIcon.setAttribute('data-lucide', 'pause');
-  } else {
-    audio.pause();
-    if (playIcon) playIcon.setAttribute('data-lucide', 'play');
-  }
-  
-  if (typeof lucide !== 'undefined') lucide.createIcons();
-}
-
-/* ===============================
-   4. BIRTHDAY MODAL
-=============================== */
-function closeBirthdayModal() {
-  const modal = document.getElementById('birthday-modal');
-  if (modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  }
-}
-
-function showBirthdayModal(memberName) {
-  const modal = document.getElementById('birthday-modal');
-  const title = document.getElementById('birthday-title');
-  const text = document.getElementById('birthday-text');
-
-  if (modal && title && text) {
-    title.innerText = `Selamat Ulang Tahun, ${memberName}! 🎉`;
-    text.innerText = `Hari ini adalah hari spesial bagi ${memberName}. Jangan lupa beri ucapan hangat!`;
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-  }
-}
-
-/* ===============================
-   5. LOGIKA COUNTDOWN ULANG TAHUN
-=============================== */
-// Data Ulang Tahun Anggota (Format: MM/DD)
-// Jika tanggal belum ada, cukup isi string kosong ""
-const membersBirthday = [
-  { name: "Irfan Syahfutra", date: "03/11" },
-  { name: "Muhamad Syaikhon", date: "10/07" },
-  { name: "Tabby Jenovan", date: "04/04" },
-  { name: "Andini Raissa", date: "" },
-  { name: "Tiara Citra Dewi", date: "" },
-  { name: "Alysa Chairani", date: "" },
-  { name: "Fathiya Adiba", date: "" },
-  { name: "Zahrah Widya", date: "" },
-  { name: "Isna Putri", date: "" }
+// ==========================================
+// 1. DATA ULANG TAHUN ANGGOTA BIMASENA
+// ==========================================
+const bimasenaMembers = [
+  { name: "Fauziah", birthMonth: 1, birthDay: 1 },
+  { name: "Irfan Syahfutra", birthMonth: 3, birthDay: 1 },
+  { name: "Muhamad Syaikhon", birthMonth: 10, birthDay: 7 },
+  { name: "Tabby Jenovan", birthMonth: 4, birthDay: 4 },
+  { name: "Andini Raissa", birthMonth: 6, birthDay: 25 },
+  { name: "Tiara Citra Dewi", birthMonth: 7, birthDay: 8 },
+  { name: "Alysa Chairani", birthMonth: 8, birthDay: 18 },
+  { name: "Fathiya Adiba", birthMonth: 9, birthDay: 30 },
+  { name: "Zahrah Widya Alifah", birthMonth: 10, birthDay: 14 },
+  { name: "Isna Putri", birthMonth: 11, birthDay: 5 }
 ];
 
-function startBirthdayCountdown() {
+// Variable acuan agar interval tidak berjalan ganda
+let birthdayInterval = null;
+
+// ==========================================
+// 2. HITUNG MUNDUR ULANG TAHUN
+// ==========================================
+function getNextBirthday() {
   const now = new Date();
-  const currentYear = now.getFullYear();
+  
+  // Waktu acuan dikunci pada awal hari (jam 00:00:00 hari ini)
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
 
-  let nextBirthday = null;
-  let targetMember = "";
-  let minDiff = Infinity;
+  let upcoming = bimasenaMembers.map(member => {
+    // Tentukan tanggal ultah tahun ini tepat pukul 00:00:00
+    let nextBday = new Date(now.getFullYear(), member.birthMonth - 1, member.birthDay, 0, 0, 0);
 
-  // Filter anggota yang punya format tanggal valid
-  const validMembers = membersBirthday.filter(member => member.date && member.date.includes('/'));
+    // Cek apakah hari ini tepat ultah
+    const isToday = (now.getDate() === member.birthDay && now.getMonth() === member.birthMonth - 1);
 
-  if (validMembers.length === 0) return;
-
-  validMembers.forEach(member => {
-    let bdate = new Date(`${member.date}/${currentYear}`);
-    
-    // Cek jika hari ini ulang tahun
-    if (bdate.getMonth() === now.getMonth() && bdate.getDate() === now.getDate()) {
-      showBirthdayModal(member.name);
+    // Jika ultah tahun ini sudah lewat sebelum hari ini, set ke tahun depan
+    if (nextBday < todayStart) {
+      nextBday = new Date(now.getFullYear() + 1, member.birthMonth - 1, member.birthDay, 0, 0, 0);
     }
 
-    // Jika ultah tahun ini sudah lewat, set ke tahun depan
-    if (bdate < now && (bdate.getDate() !== now.getDate() || bdate.getMonth() !== now.getMonth())) {
-      bdate = new Date(`${member.date}/${currentYear + 1}`);
-    }
-
-    const diff = bdate - now;
-    if (diff > 0 && diff < minDiff) {
-      minDiff = diff;
-      nextBirthday = bdate;
-      targetMember = member.name;
-    }
+    return {
+      name: member.name,
+      date: nextBday,
+      diff: nextBday.getTime() - now.getTime(),
+      isToday: isToday
+    };
   });
 
-  if (!nextBirthday) return;
+  // Urutkan dari selisih waktu terkecil (paling dekat dengan sekarang)
+  upcoming.sort((a, b) => a.diff - b.diff);
 
-  const nameElement = document.getElementById('target-name');
-  if (nameElement) nameElement.innerText = `(${targetMember})`;
-
-  const timer = setInterval(() => {
-    const today = new Date().getTime();
-    const distance = nextBirthday.getTime() - today;
-
-    if (distance <= 0) {
-      clearInterval(timer);
-      startBirthdayCountdown();
-      return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    if (document.getElementById('cd-days')) document.getElementById('cd-days').innerText = String(days).padStart(2, '0');
-    if (document.getElementById('cd-hours')) document.getElementById('cd-hours').innerText = String(hours).padStart(2, '0');
-    if (document.getElementById('cd-minutes')) document.getElementById('cd-minutes').innerText = String(minutes).padStart(2, '0');
-    if (document.getElementById('cd-seconds')) document.getElementById('cd-seconds').innerText = String(seconds).padStart(2, '0');
-  }, 1000);
+  return upcoming[0];
 }
 
-/* ===============================
-   6. WEB SHARE API & QR CODE
-=============================== */
-async function shareWebsite() {
-  const shareData = {
-    title: 'BIMASENA | Official Squad Profile',
-    text: 'Cek profil resmi squad BIMASENA di sini!',
-    url: window.location.href
-  };
+function updateBirthdayUI() {
+  const target = getNextBirthday();
+  const targetElem = document.getElementById('target-name');
 
-  if (navigator.share) {
-    try {
-      await navigator.share(shareData);
-    } catch (err) {
-      console.log('Batal berbagi:', err);
-    }
-  } else {
-    navigator.clipboard.writeText(window.location.href);
-    alert('Link website berhasil disalin ke clipboard! 📋');
+  // Paksa nama anggota terdekat masuk ke dalam kurung
+  if (targetElem && target) {
+    targetElem.textContent = `(${target.name})`;
   }
-}
 
-function openQrModal() {
-  const modal = document.getElementById('qr-modal');
-  const qrImage = document.getElementById('qr-image');
-  const currentUrl = encodeURIComponent(window.location.href);
+  const cdDays = document.getElementById('cd-days');
+  const cdHours = document.getElementById('cd-hours');
+  const cdMinutes = document.getElementById('cd-minutes');
+  const cdSeconds = document.getElementById('cd-seconds');
 
-  if (modal && qrImage) {
-    qrImage.src = `https://quickchart.io/qr?text=${currentUrl}&size=200&margin=1`;
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+  if (!cdDays || !cdHours || !cdMinutes || !cdSeconds) return;
+
+  const now = new Date();
+  if (target.isToday) {
+    cdDays.innerText = "00";
+    cdHours.innerText = "00";
+    cdMinutes.innerText = "00";
+    cdSeconds.innerText = "00";
+    return;
   }
+
+  const diff = target.date.getTime() - now.getTime();
+  if (diff <= 0) return;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  cdDays.innerText = days < 10 ? '0' + days : days;
+  cdHours.innerText = hours < 10 ? '0' + hours : hours;
+  cdMinutes.innerText = minutes < 10 ? '0' + minutes : minutes;
+  cdSeconds.innerText = seconds < 10 ? '0' + seconds : seconds;
 }
 
-function closeQrModal() {
-  const modal = document.getElementById('qr-modal');
-  if (modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
+// ==========================================
+// 3. INISIALISASI HALAMAN
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Update tampilan saat pertama dimuat
+  updateBirthdayUI();
+
+  // Cegah multiple interval dengan mereset interval lama jika ada
+  if (birthdayInterval) {
+    clearInterval(birthdayInterval);
   }
-}
+  
+  // Jalankan interval per 1 detik
+  birthdayInterval = setInterval(updateBirthdayUI, 1000);
+});
