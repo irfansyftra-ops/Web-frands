@@ -26,6 +26,20 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- OneSignal Web Push Notification -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "e4ed6495-9946-4255-b365-7396026be64d",
+        notifyButton: {
+          enable: false,
+        },
+      });
+    });
+  </script>
 </head>
 
 <body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-white font-sans min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white flex flex-col justify-between transition-colors duration-300">

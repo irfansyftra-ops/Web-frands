@@ -6,12 +6,12 @@ const bimasenaMembers = [
   { name: "Irfan Syahfutra", birthMonth: 3, birthDay: 1 },
   { name: "Muhamad Syaikhon", birthMonth: 10, birthDay: 7 },
   { name: "Tabby Jenovan", birthMonth: 4, birthDay: 4 },
-  { name: "Andini Raissa", birthMonth: 6, birthDay: 25 },
-  { name: "Tiara Citra Dewi", birthMonth: 7, birthDay: 8 },
-  { name: "Alysa Chairani", birthMonth: 8, birthDay: 18 },
-  { name: "Fathiya Adiba", birthMonth: 9, birthDay: 30 },
-  { name: "Zahrah Widya Alifah", birthMonth: 10, birthDay: 14 },
-  { name: "Isna Putri", birthMonth: 11, birthDay: 5 }
+  { name: "Andini Raissa", birthMonth: 12, birthDay: 21 },
+  { name: "Tiara Citra Dewi", birthMonth: 3, birthDay: 22 },
+  { name: "Alysa Chairani", birthMonth: 9, birthDay: 11 },
+  { name: "Fathiya Adiba", birthMonth: 1, birthDay: 30 },
+  { name: "Zahrah Widya Alifah", birthMonth: 8, birthDay: 30 },
+  { name: "Isna Putri", birthMonth: 2, birthDay: 17 }
 ];
 
 // Variable acuan agar interval tidak berjalan ganda
@@ -22,18 +22,12 @@ let birthdayInterval = null;
 // ==========================================
 function getNextBirthday() {
   const now = new Date();
-  
-  // Waktu acuan dikunci pada awal hari (jam 00:00:00 hari ini)
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
 
   let upcoming = bimasenaMembers.map(member => {
-    // Tentukan tanggal ultah tahun ini tepat pukul 00:00:00
     let nextBday = new Date(now.getFullYear(), member.birthMonth - 1, member.birthDay, 0, 0, 0);
-
-    // Cek apakah hari ini tepat ultah
     const isToday = (now.getDate() === member.birthDay && now.getMonth() === member.birthMonth - 1);
 
-    // Jika ultah tahun ini sudah lewat sebelum hari ini, set ke tahun depan
     if (nextBday < todayStart) {
       nextBday = new Date(now.getFullYear() + 1, member.birthMonth - 1, member.birthDay, 0, 0, 0);
     }
@@ -46,9 +40,7 @@ function getNextBirthday() {
     };
   });
 
-  // Urutkan dari selisih waktu terkecil (paling dekat dengan sekarang)
   upcoming.sort((a, b) => a.diff - b.diff);
-
   return upcoming[0];
 }
 
@@ -56,7 +48,6 @@ function updateBirthdayUI() {
   const target = getNextBirthday();
   const targetElem = document.getElementById('target-name');
 
-  // Paksa nama anggota terdekat masuk ke dalam kurung
   if (targetElem && target) {
     targetElem.textContent = `(${target.name})`;
   }
@@ -92,17 +83,72 @@ function updateBirthdayUI() {
 }
 
 // ==========================================
-// 3. INISIALISASI HALAMAN
+// 3. ONESIGNAL PUSH NOTIFICATIONS
+// ==========================================
+
+// A. Kirim Notif Mading Baru
+function sendOneSignalNotification(senderName, messageText) {
+  fetch("https://onesignal.com/api/v1/notifications", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    body: JSON.stringify({
+      app_id: "e4ed6495-9946-4255-b365-7396026be64d",
+      included_segments: ["Subscribed Users"],
+      headings: { "en": "📌 Mading Baru BIMASENA!" },
+      contents: { "en": `${senderName}: "${messageText}"` }
+    })
+  })
+  .then(res => res.json())
+  .then(data => console.log("Notif Mading Terkirim:", data))
+  .catch(err => console.error("Gagal Kirim Notif Mading:", err));
+}
+
+// B. Kirim Notif Ulang Tahun
+function sendBirthdayNotification(memberName) {
+  fetch("https://onesignal.com/api/v1/notifications", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    body: JSON.stringify({
+      app_id: "e4ed6495-9946-4255-b365-7396026be64d",
+      included_segments: ["Subscribed Users"],
+      headings: { "en": "🎉 Selamat Ulang Tahun! 🎂" },
+      contents: { "en": `Hari ini ${memberName} anggota BIMASENA ulang tahun! Berikan ucapan hangatmu!` }
+    })
+  })
+  .then(res => res.json())
+  .then(data => console.log("Notif Ultah Terkirim:", data))
+  .catch(err => console.error("Gagal Kirim Notif Ultah:", err));
+}
+
+// C. Cek Otomatis Ultah Hari Ini
+function checkTodayBirthdays() {
+  const target = getNextBirthday();
+  if (target && target.isToday) {
+    // Jalankan sekali saat mendeteksi ultah hari ini
+    const notifSentKey = `bday_notif_${target.name}_${new Date().getFullYear()}`;
+    if (!localStorage.getItem(notifSentKey)) {
+      sendBirthdayNotification(target.name);
+      localStorage.setItem(notifSentKey, "true"); // Mencegah spam notif berulang kali di hari yang sama
+    }
+  }
+}
+
+// ==========================================
+// 4. INISIALISASI HALAMAN
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Update tampilan saat pertama dimuat
   updateBirthdayUI();
 
-  // Cegah multiple interval dengan mereset interval lama jika ada
   if (birthdayInterval) {
     clearInterval(birthdayInterval);
   }
   
-  // Jalankan interval per 1 detik
   birthdayInterval = setInterval(updateBirthdayUI, 1000);
+
+  // Cek apakah ada anggota yang ultah hari ini untuk kirim notif
+  checkTodayBirthdays();
 });
