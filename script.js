@@ -30,7 +30,6 @@ const bimasenaMembers = [
   { name: "Isna Putri", birthMonth: 2, birthDay: 17 }
 ];
 
-// Variable acuan agar interval tidak berjalan ganda
 let birthdayInterval = null;
 
 // ==========================================
@@ -101,8 +100,6 @@ function updateBirthdayUI() {
 // ==========================================
 // 3. ONESIGNAL PUSH NOTIFICATIONS
 // ==========================================
-
-// A. Kirim Notif Mading Baru
 function sendOneSignalNotification(senderName, messageText) {
   fetch("https://onesignal.com/api/v1/notifications", {
     method: "POST",
@@ -121,7 +118,6 @@ function sendOneSignalNotification(senderName, messageText) {
   .catch(err => console.error("Gagal Kirim Notif Mading:", err));
 }
 
-// B. Kirim Notif Ulang Tahun
 function sendBirthdayNotification(memberName) {
   fetch("https://onesignal.com/api/v1/notifications", {
     method: "POST",
@@ -140,7 +136,6 @@ function sendBirthdayNotification(memberName) {
   .catch(err => console.error("Gagal Kirim Notif Ultah:", err));
 }
 
-// C. Cek Otomatis Ultah Hari Ini
 function checkTodayBirthdays() {
   const target = getNextBirthday();
   if (target && target.isToday) {
@@ -153,61 +148,65 @@ function checkTodayBirthdays() {
 }
 
 // ==========================================
-// 4. MADING DIGITAL (FIREBASE REALTIME DATABASE)
+// 4. MADING PESAN & KENANGAN (FIREBASE REALTIME)
 // ==========================================
 
-// Fungsi Mengirim Pesan Mading ke Cloud Database
-function kirimMading() {
-  const senderInput = document.getElementById('mading-sender');
-  const messageInput = document.getElementById('mading-message');
+// Fungsi Tambah Memory Note (Dipanggil oleh Form HTML)
+function addMemoryNote(event) {
+  if (event) event.preventDefault();
 
-  if (!senderInput || !messageInput) return;
+  const senderInput = document.getElementById('note-sender');
+  const textInput = document.getElementById('note-text');
+
+  if (!senderInput || !textInput) return;
 
   const sender = senderInput.value.trim();
-  const message = messageInput.value.trim();
+  const text = textInput.value.trim();
 
-  if (!sender || !message) {
+  if (!sender || !text) {
     alert("Harap isi nama dan pesan mading terlebih dahulu!");
     return;
   }
 
-  // Simpan data ke Firebase Realtime Database
+  // Simpan ke Firebase Database
   database.ref('mading').push({
     sender: sender,
-    message: message,
+    message: text,
     timestamp: Date.now()
   })
   .then(() => {
-    // Kirim Push Notification ke HP & Laptop lain
-    sendOneSignalNotification(sender, message);
+    // Kirim Push Notification
+    sendOneSignalNotification(sender, text);
 
-    // Kosongkan form input
+    // Reset Form
     senderInput.value = '';
-    messageInput.value = '';
+    textInput.value = '';
   })
   .catch((error) => {
     console.error("Gagal mengirim mading:", error);
-    alert("Gagal mengirim mading. Cek koneksi internetmu!");
+    alert("Gagal mengirim pesan mading.");
   });
 }
 
-// Membaca dan Menampilkan Mading secara Realtime
+// Fungsi Realtime Sync Mading
 function initMadingRealtime() {
-  const madingList = document.getElementById('mading-list');
-  if (!madingList) return;
+  const notesContainer = document.getElementById('notes-container');
+  if (!notesContainer) return;
 
   database.ref('mading').on('value', (snapshot) => {
     const data = snapshot.val();
-    madingList.innerHTML = '';
+    notesContainer.innerHTML = '';
 
     if (!data) {
-      madingList.innerHTML = '<p class="text-gray-500 italic text-center">Belum ada mading. Jadilah yang pertama menulis!</p>';
+      notesContainer.innerHTML = `
+        <div class="col-span-full text-center py-6 text-slate-400 text-sm italic">
+          Belum ada kenangan yang ditempel. Kirim pesan pertama kamu di atas!
+        </div>`;
       return;
     }
 
-    // Ubah object Firebase menjadi array dan urutkan dari yang terbaru
     const posts = Object.keys(data).map(key => data[key]);
-    posts.sort((a, b) => b.timestamp - a.timestamp);
+    posts.sort((a, b) => b.timestamp - a.timestamp); // Urutan terbaru di atas
 
     posts.forEach(post => {
       const dateStr = new Date(post.timestamp).toLocaleDateString('id-ID', {
@@ -219,15 +218,17 @@ function initMadingRealtime() {
       });
 
       const card = document.createElement('div');
-      card.className = "p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 mb-3";
+      card.className = "bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 p-4 rounded-xl shadow-sm flex flex-col justify-between";
       card.innerHTML = `
-        <div class="flex justify-between items-center mb-1">
-          <span class="font-bold text-blue-600 dark:text-blue-400">${post.sender}</span>
-          <span class="text-xs text-gray-400">${dateStr}</span>
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-semibold text-sm text-indigo-600 dark:text-indigo-400">${post.sender}</span>
+            <span class="text-[10px] text-slate-400">${dateStr}</span>
+          </div>
+          <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">${post.message}</p>
         </div>
-        <p class="text-gray-700 dark:text-gray-200 text-sm whitespace-pre-line">${post.message}</p>
       `;
-      madingList.appendChild(card);
+      notesContainer.appendChild(card);
     });
   });
 }
@@ -244,18 +245,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
   birthdayInterval = setInterval(updateBirthdayUI, 1000);
 
-  // Cek apakah ada anggota yang ultah hari ini untuk kirim notif
   checkTodayBirthdays();
 
-  // Inisialisasi Mading Realtime
+  // Jalankan listener Realtime Mading
   initMadingRealtime();
-
-  // Bind event Listener ke Tombol Kirim Mading
-  const btnKirim = document.getElementById('btn-kirim-mading');
-  if (btnKirim) {
-    btnKirim.addEventListener('click', (e) => {
-      e.preventDefault();
-      kirimMading();
-    });
-  }
 });
