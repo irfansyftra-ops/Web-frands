@@ -1,3 +1,19 @@
+// Konfigurasi Firebase BIMASENA
+const firebaseConfig = {
+  apiKey: "AIzaSyDwgiklZ2uOwSHJhGjoS7V3luAiq2aNyac",
+  authDomain: "bimasena-web.firebaseapp.com",
+  databaseURL: "https://bimasena-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "bimasena-web",
+  storageBucket: "bimasena-web.firebasestorage.app",
+  messagingSenderId: "182907195902",
+  appId: "1:182907195902:web:53e6587549d17fe79ab0af",
+  measurementId: "G-QER4E0VVJR"
+};
+
+// Inisialisasi Firebase & Realtime Database
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 // ==========================================
 // 1. DATA ULANG TAHUN ANGGOTA BIMASENA
 // ==========================================
@@ -128,17 +144,96 @@ function sendBirthdayNotification(memberName) {
 function checkTodayBirthdays() {
   const target = getNextBirthday();
   if (target && target.isToday) {
-    // Jalankan sekali saat mendeteksi ultah hari ini
     const notifSentKey = `bday_notif_${target.name}_${new Date().getFullYear()}`;
     if (!localStorage.getItem(notifSentKey)) {
       sendBirthdayNotification(target.name);
-      localStorage.setItem(notifSentKey, "true"); // Mencegah spam notif berulang kali di hari yang sama
+      localStorage.setItem(notifSentKey, "true");
     }
   }
 }
 
 // ==========================================
-// 4. INISIALISASI HALAMAN
+// 4. MADING DIGITAL (FIREBASE REALTIME DATABASE)
+// ==========================================
+
+// Fungsi Mengirim Pesan Mading ke Cloud Database
+function kirimMading() {
+  const senderInput = document.getElementById('mading-sender');
+  const messageInput = document.getElementById('mading-message');
+
+  if (!senderInput || !messageInput) return;
+
+  const sender = senderInput.value.trim();
+  const message = messageInput.value.trim();
+
+  if (!sender || !message) {
+    alert("Harap isi nama dan pesan mading terlebih dahulu!");
+    return;
+  }
+
+  // Simpan data ke Firebase Realtime Database
+  database.ref('mading').push({
+    sender: sender,
+    message: message,
+    timestamp: Date.now()
+  })
+  .then(() => {
+    // Kirim Push Notification ke HP & Laptop lain
+    sendOneSignalNotification(sender, message);
+
+    // Kosongkan form input
+    senderInput.value = '';
+    messageInput.value = '';
+  })
+  .catch((error) => {
+    console.error("Gagal mengirim mading:", error);
+    alert("Gagal mengirim mading. Cek koneksi internetmu!");
+  });
+}
+
+// Membaca dan Menampilkan Mading secara Realtime
+function initMadingRealtime() {
+  const madingList = document.getElementById('mading-list');
+  if (!madingList) return;
+
+  database.ref('mading').on('value', (snapshot) => {
+    const data = snapshot.val();
+    madingList.innerHTML = '';
+
+    if (!data) {
+      madingList.innerHTML = '<p class="text-gray-500 italic text-center">Belum ada mading. Jadilah yang pertama menulis!</p>';
+      return;
+    }
+
+    // Ubah object Firebase menjadi array dan urutkan dari yang terbaru
+    const posts = Object.keys(data).map(key => data[key]);
+    posts.sort((a, b) => b.timestamp - a.timestamp);
+
+    posts.forEach(post => {
+      const dateStr = new Date(post.timestamp).toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      const card = document.createElement('div');
+      card.className = "p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 mb-3";
+      card.innerHTML = `
+        <div class="flex justify-between items-center mb-1">
+          <span class="font-bold text-blue-600 dark:text-blue-400">${post.sender}</span>
+          <span class="text-xs text-gray-400">${dateStr}</span>
+        </div>
+        <p class="text-gray-700 dark:text-gray-200 text-sm whitespace-pre-line">${post.message}</p>
+      `;
+      madingList.appendChild(card);
+    });
+  });
+}
+
+// ==========================================
+// 5. INISIALISASI HALAMAN
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   updateBirthdayUI();
@@ -151,4 +246,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cek apakah ada anggota yang ultah hari ini untuk kirim notif
   checkTodayBirthdays();
+
+  // Inisialisasi Mading Realtime
+  initMadingRealtime();
+
+  // Bind event Listener ke Tombol Kirim Mading
+  const btnKirim = document.getElementById('btn-kirim-mading');
+  if (btnKirim) {
+    btnKirim.addEventListener('click', (e) => {
+      e.preventDefault();
+      kirimMading();
+    });
+  }
 });
