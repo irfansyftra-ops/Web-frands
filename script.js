@@ -98,46 +98,32 @@ function updateBirthdayUI() {
 }
 
 // ==========================================
-// 3. ONESIGNAL PUSH NOTIFICATIONS
+// 3. ONESIGNAL PUSH NOTIFICATIONS (SDK BROWSER / NO CORS)
 // ==========================================
 function sendOneSignalNotification(senderName, messageText) {
-  fetch("https://onesignal.com/api/v1/notifications", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Authorization": "Basic os_v2_app_4twwjfmzizbflm3foolae27gjv6jhuwmk5fuq7fhtwguotqqt7uxzjz7f3nxjv5jnmedd3c5uyt3eb4e7pmue6gbj5yel2q4crat4ei"
-    },
-    body: JSON.stringify({
-      app_id: "e4ed6495-9946-4255-b365-7396026be64d",
-      included_segments: ["All"],
-      headings: { "en": "📌 Mading Baru BIMASENA!" },
-      contents: { "en": `${senderName}: "${messageText}"` },
-      url: "https://irfansyftra-ops.github.io/Web-frands/"
-    })
-  })
-  .then(res => res.json())
-  .then(data => console.log("Notif Mading Terkirim:", data))
-  .catch(err => console.error("Gagal Kirim Notif Mading:", err));
+  if (window.OneSignal) {
+    window.OneSignal.push(function() {
+      window.OneSignal.postNotification({
+        contents: { "en": `${senderName}: "${messageText}"` },
+        headings: { "en": "📌 Mading Baru BIMASENA!" },
+        included_segments: ["All"],
+        url: "https://irfansyftra-ops.github.io/Web-frands/"
+      });
+    });
+  }
 }
 
 function sendBirthdayNotification(memberName) {
-  fetch("https://onesignal.com/api/v1/notifications", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Authorization": "Basic os_v2_app_4twwjfmzizbflm3foolae27gjv6jhuwmk5fuq7fhtwguotqqt7uxzjz7f3nxjv5jnmedd3c5uyt3eb4e7pmue6gbj5yel2q4crat4ei"
-    },
-    body: JSON.stringify({
-      app_id: "e4ed6495-9946-4255-b365-7396026be64d",
-      included_segments: ["All"],
-      headings: { "en": "🎉 Selamat Ulang Tahun! 🎂" },
-      contents: { "en": `Hari ini ${memberName} anggota BIMASENA ulang tahun! Berikan ucapan hangatmu!` },
-      url: "https://irfansyftra-ops.github.io/Web-frands/"
-    })
-  })
-  .then(res => res.json())
-  .then(data => console.log("Notif Ultah Terkirim:", data))
-  .catch(err => console.error("Gagal Kirim Notif Ultah:", err));
+  if (window.OneSignal) {
+    window.OneSignal.push(function() {
+      window.OneSignal.postNotification({
+        contents: { "en": `Hari ini ${memberName} anggota BIMASENA ulang tahun! Berikan ucapan hangatmu!` },
+        headings: { "en": "🎉 Selamat Ulang Tahun! 🎂" },
+        included_segments: ["All"],
+        url: "https://irfansyftra-ops.github.io/Web-frands/"
+      });
+    });
+  }
 }
 
 function checkTodayBirthdays() {
