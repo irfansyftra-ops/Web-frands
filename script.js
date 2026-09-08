@@ -105,13 +105,14 @@ function sendOneSignalNotification(senderName, messageText) {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Authorization": "Basic os_v2_org_fw2stpc27ncttjmnlsq26xvv4smydwry7yuudenwildtp7lu2ybkybaflzb6vvrxhd7oo6msggjh4luwmlscbitjwwdptjx7qwzvn2y"
+      "Authorization": "Basic os_v2_app_4twwjfmzizbflm3foolae27gjv6jhuwmk5fuq7fhtwguotqqt7uxzjz7f3nxjv5jnmedd3c5uyt3eb4e7pmue6gbj5yel2q4crat4ei"
     },
     body: JSON.stringify({
       app_id: "e4ed6495-9946-4255-b365-7396026be64d",
-      included_segments: ["Subscribed Users"],
+      included_segments: ["All"],
       headings: { "en": "📌 Mading Baru BIMASENA!" },
-      contents: { "en": `${senderName}: "${messageText}"` }
+      contents: { "en": `${senderName}: "${messageText}"` },
+      url: "https://irfansyftra-ops.github.io/Web-frands/"
     })
   })
   .then(res => res.json())
@@ -124,13 +125,14 @@ function sendBirthdayNotification(memberName) {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Authorization": "Basic os_v2_org_fw2stpc27ncttjmnlsq26xvv4smydwry7yuudenwildtp7lu2ybkybaflzb6vvrxhd7oo6msggjh4luwmlscbitjwwdptjx7qwzvn2y"
+      "Authorization": "Basic os_v2_app_4twwjfmzizbflm3foolae27gjv6jhuwmk5fuq7fhtwguotqqt7uxzjz7f3nxjv5jnmedd3c5uyt3eb4e7pmue6gbj5yel2q4crat4ei"
     },
     body: JSON.stringify({
       app_id: "e4ed6495-9946-4255-b365-7396026be64d",
-      included_segments: ["Subscribed Users"],
+      included_segments: ["All"],
       headings: { "en": "🎉 Selamat Ulang Tahun! 🎂" },
-      contents: { "en": `Hari ini ${memberName} anggota BIMASENA ulang tahun! Berikan ucapan hangatmu!` }
+      contents: { "en": `Hari ini ${memberName} anggota BIMASENA ulang tahun! Berikan ucapan hangatmu!` },
+      url: "https://irfansyftra-ops.github.io/Web-frands/"
     })
   })
   .then(res => res.json())
