@@ -104,7 +104,8 @@ function sendOneSignalNotification(senderName, messageText) {
   fetch("https://onesignal.com/api/v1/notifications", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json; charset=utf-8"
+      "Content-Type": "application/json; charset=utf-8",
+      "Authorization": "Basic os_v2_org_fw2stpc27ncttjmnlsq26xvv4smydwry7yuudenwildtp7lu2ybkybaflzb6vvrxhd7oo6msggjh4luwmlscbitjwwdptjx7qwzvn2y"
     },
     body: JSON.stringify({
       app_id: "e4ed6495-9946-4255-b365-7396026be64d",
@@ -122,7 +123,8 @@ function sendBirthdayNotification(memberName) {
   fetch("https://onesignal.com/api/v1/notifications", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json; charset=utf-8"
+      "Content-Type": "application/json; charset=utf-8",
+      "Authorization": "Basic os_v2_org_fw2stpc27ncttjmnlsq26xvv4smydwry7yuudenwildtp7lu2ybkybaflzb6vvrxhd7oo6msggjh4luwmlscbitjwwdptjx7qwzvn2y"
     },
     body: JSON.stringify({
       app_id: "e4ed6495-9946-4255-b365-7396026be64d",
