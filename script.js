@@ -98,7 +98,7 @@ function updateBirthdayUI() {
 }
 
 // ==========================================
-// 3. ONESIGNAL PUSH NOTIFICATIONS (SDK BROWSER / NO CORS)
+// 3. ONESIGNAL PUSH NOTIFICATIONS
 // ==========================================
 function sendOneSignalNotification(senderName, messageText) {
   if (window.OneSignal) {
@@ -138,10 +138,10 @@ function checkTodayBirthdays() {
 }
 
 // ==========================================
-// 4. MADING PESAN & KENANGAN (FIREBASE REALTIME)
+// 4. MADING PESAN & KENANGAN (FIREBASE REALTIME + SVG TRASH)
 // ==========================================
 
-// Fungsi Tambah Memory Note (Dipanggil oleh Form HTML)
+// Fungsi Tambah Memory Note
 function addMemoryNote(event) {
   if (event) event.preventDefault();
 
@@ -158,17 +158,13 @@ function addMemoryNote(event) {
     return;
   }
 
-  // Simpan ke Firebase Database
   database.ref('mading').push({
     sender: sender,
     message: text,
     timestamp: Date.now()
   })
   .then(() => {
-    // Kirim Push Notification
     sendOneSignalNotification(sender, text);
-
-    // Reset Form
     senderInput.value = '';
     textInput.value = '';
   })
@@ -178,7 +174,7 @@ function addMemoryNote(event) {
   });
 }
 
-// Fungsi Realtime Sync Mading
+// Fungsi Realtime Sync Mading dengan Tombol SVG Lucide
 function initMadingRealtime() {
   const notesContainer = document.getElementById('notes-container');
   if (!notesContainer) return;
@@ -195,8 +191,12 @@ function initMadingRealtime() {
       return;
     }
 
-    const posts = Object.keys(data).map(key => data[key]);
-    posts.sort((a, b) => b.timestamp - a.timestamp); // Urutan terbaru di atas
+    const posts = Object.keys(data).map(key => ({
+      id: key,
+      ...data[key]
+    }));
+    
+    posts.sort((a, b) => b.timestamp - a.timestamp);
 
     posts.forEach(post => {
       const dateStr = new Date(post.timestamp).toLocaleDateString('id-ID', {
@@ -208,23 +208,83 @@ function initMadingRealtime() {
       });
 
       const card = document.createElement('div');
-      card.className = "bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 p-4 rounded-xl shadow-sm flex flex-col justify-between";
+      card.className = "bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 p-4 rounded-xl shadow-sm flex flex-col justify-between relative group";
       card.innerHTML = `
         <div>
           <div class="flex items-center justify-between mb-2">
             <span class="font-semibold text-sm text-indigo-600 dark:text-indigo-400">${post.sender}</span>
-            <span class="text-[10px] text-slate-400">${dateStr}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-slate-400">${dateStr}</span>
+              <!-- Tombol Hapus dengan Ikon SVG Lucide trash-2 -->
+              <button onclick="deleteMemoryNote('${post.id}')" class="text-slate-400 hover:text-rose-500 p-1 transition-colors" title="Hapus pesan">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
           </div>
           <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">${post.message}</p>
         </div>
       `;
       notesContainer.appendChild(card);
     });
+
+    // Panggil ulang render ikon Lucide untuk elemen yang baru dirender secara dinamis
+    if (window.lucide) {
+      lucide.createIcons();
+    }
   });
 }
 
+// Fungsi Menghapus Pesan Mading dari Firebase
+function deleteMemoryNote(noteId) {
+  if (confirm("Apakah kamu yakin ingin menghapus pesan mading ini?")) {
+    database.ref('mading/' + noteId).remove()
+      .catch((error) => {
+        alert("Gagal menghapus pesan: " + error.message);
+      });
+  }
+}
+
 // ==========================================
-// 5. INISIALISASI HALAMAN
+// 5. POP-UP KUE ULANG TAHUN OTOMATIS
+// ==========================================
+function checkAutoBirthdayPopup() {
+  const target = getNextBirthday();
+  
+  if (target && target.isToday) {
+    const todayStr = `${new Date().getMonth() + 1}-${new Date().getDate()}`;
+    const seenKey = `seen_bday_popup_${target.name}_${todayStr}`;
+
+    if (!localStorage.getItem(seenKey)) {
+      showBirthdayModal(target.name);
+      localStorage.setItem(seenKey, "true");
+    }
+  }
+}
+
+function showBirthdayModal(memberName) {
+  const modal = document.getElementById('birthday-modal');
+  if (!modal) return;
+
+  const title = modal.querySelector('h3');
+  const message = modal.querySelector('p');
+
+  if (title) title.innerText = `🎉 Happy Birthday, ${memberName}! 🎂`;
+  if (message) message.innerText = `Selamat ulang tahun untuk ${memberName}! Doa terbaik dari seluruh keluarga besar BIMASENA! ✨`;
+
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function closeBirthdayModal() {
+  const modal = document.getElementById('birthday-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
+
+// ==========================================
+// 6. INISIALISASI HALAMAN
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   updateBirthdayUI();
@@ -236,7 +296,6 @@ document.addEventListener('DOMContentLoaded', () => {
   birthdayInterval = setInterval(updateBirthdayUI, 1000);
 
   checkTodayBirthdays();
-
-  // Jalankan listener Realtime Mading
   initMadingRealtime();
+  checkAutoBirthdayPopup();
 });
