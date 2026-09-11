@@ -14,3 +14,25 @@ html {
   box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.3);
   border-color: rgba(99, 102, 241, 0.8);
 }
+
+/* ===== ANIMASI RUNNING TEXT (TICKER) ===== */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 25s linear infinite;
+}
+
+/* Jeda jalan teks saat kursor disentuhkan/diarahkan */
+.animate-marquee:hover {
+  animation-play-state: paused;
+  cursor: pointer;
+}
