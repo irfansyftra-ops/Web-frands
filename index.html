@@ -19,7 +19,7 @@
 
   <!-- QRCode.js Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
+  
   <!-- AOS Animation CSS & JS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -49,6 +49,49 @@
 </head>
 
 <body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-white font-sans min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white flex flex-col justify-between transition-colors duration-300">
+  <!-- ===== FULLSCREEN LOADER (WARM SOFT PASTEL) ===== -->
+  <div id="loading-screen" class="fixed inset-0 z-[9999] bg-stone-900 flex flex-col items-center justify-center p-4 transition-opacity duration-500 overflow-hidden">
+    
+    <!-- Warm Soft Glow Blobs Background -->
+    <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-72 h-72 bg-rose-300/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+
+    <!-- Loading Content Box (Glassmorphism Soft) -->
+    <div class="relative z-10 max-w-sm w-full p-8 rounded-3xl backdrop-blur-xl bg-stone-800/40 border border-stone-100/10 text-center space-y-6 shadow-2xl">
+      
+      <!-- Logo & Icon Animation -->
+      <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+        <div class="absolute inset-0 rounded-full border-4 border-amber-200/20 border-t-amber-300 animate-spin"></div>
+        <div class="w-16 h-16 bg-rose-400/20 rounded-full flex items-center justify-center text-3xl animate-bounce shadow-lg shadow-rose-500/20 border border-rose-200/30">
+          🛡️
+        </div>
+      </div>
+
+      <!-- Title & Status -->
+      <div>
+        <h3 class="text-2xl font-black text-stone-100 tracking-wider mb-1">BIMASENA</h3>
+        <p id="loading-quote" class="text-xs text-amber-200/90 font-medium italic min-h-[32px] flex items-center justify-center">
+          "Menyiapkan markas squad..."
+        </p>
+      </div>
+
+      <!-- Skeleton Card Preview -->
+      <div class="space-y-2 p-3 rounded-xl bg-stone-900/50 border border-stone-100/5">
+        <div class="h-3 rounded-md skeleton w-full bg-stone-700/50"></div>
+        <div class="h-3 rounded-md skeleton w-4/5 mx-auto bg-stone-700/50"></div>
+      </div>
+
+      <!-- Progress Bar & Percentage -->
+      <div class="space-y-2">
+        <div class="w-full bg-stone-900/80 rounded-full h-2.5 overflow-hidden border border-stone-100/10 p-0.5">
+          <div id="loading-bar" class="bg-gradient-to-r from-amber-200 via-rose-300 to-rose-400 h-full rounded-full transition-all duration-300 w-0"></div>
+        </div>
+        <span id="loading-progress" class="text-xs font-bold text-stone-200">0%</span>
+      </div>
+
+    </div>
+  </div>
+
   <!-- ===== TICKER / RUNNING TEXT INSIDE JOKE ===== -->
   <div class="bg-indigo-950/80 border-b border-indigo-800/50 py-2.5 px-4 overflow-hidden backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-6xl mx-auto flex items-center gap-3">
@@ -139,7 +182,7 @@
   </div>
 
   <!-- CONTROL BUTTONS TOP-RIGHT -->
-  <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+  <div class="fixed top-14 right-4 z-50 flex items-center gap-2">
     <!-- TOMBOL ANGGOTA BARU DI SINI -->
     <a href="#anggota" class="bg-slate-800 text-white p-3 rounded-full shadow-lg border border-slate-700 hover:scale-110 transition duration-300 flex items-center justify-center" title="Lihat Anggota">
       <i data-lucide="users" class="w-5 h-5"></i>
@@ -449,14 +492,14 @@
 
       <!-- MEMBER PROFIL UTAMA (FASILITATOR) -->
       <section class="flex justify-center mb-14" data-aos="fade-up" data-aos-duration="900">
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border-2 border-indigo-500 dark:border-indigo-400 shadow-2xl w-full max-w-sm flex flex-col justify-between transition-colors duration-300">
+        <div id="card-fasilitator" class="glass-card rounded-2xl p-6">
           <div class="text-center mb-4">
             <span class="inline-block bg-indigo-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
               ⭐ (FASILITATOR)
             </span>
           </div>
           <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
-              <img src="fauziah.jpeg" alt="Tabby Jenovan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
+            <img src="fauziah.jpeg" alt="Fauziah" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
           </div>
           <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Fauziah</h3>
           <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Fasilitator / Mentor</p>
@@ -465,6 +508,7 @@
             <i data-lucide="instagram" class="w-4 h-4"></i>
             <span>@rnfauziahh</span>
           </a>
+          
         </div>
       </section>
 
@@ -475,41 +519,40 @@
       </div>
 
       <!-- COUNTDOWN ULANG TAHUN -->
-<div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-xl border border-slate-200 dark:border-slate-700/50 text-center shadow-lg mb-8" data-aos="fade-up">
-  <div class="flex items-center justify-center gap-2 text-indigo-500 dark:text-indigo-400 mb-3">
-    <i data-lucide="gift" class="w-5 h-5"></i>
-    <span class="font-bold text-sm tracking-wide uppercase">
-      <span id="target-name" class="text-indigo-400 font-extrabold"></span>
-    </span>
-  </div>
+      <div class="bg-slate-100 dark:bg-slate-900/60 p-5 rounded-xl border border-slate-200 dark:border-slate-700/50 text-center shadow-lg mb-8" data-aos="fade-up">
+        <div class="flex items-center justify-center gap-2 text-indigo-500 dark:text-indigo-400 mb-3">
+          <i data-lucide="gift" class="w-5 h-5"></i>
+          <span class="font-bold text-sm tracking-wide uppercase">
+            <span id="target-name" class="text-indigo-400 font-extrabold"></span>
+          </span>
+        </div>
 
-  <div class="grid grid-cols-4 gap-2 max-w-sm mx-auto">
-    <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
-      <span id="cd-days" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
-      <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Hari</span>
-    </div>
-    <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
-      <span id="cd-hours" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
-      <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Jam</span>
-    </div>
-    <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
-      <span id="cd-minutes" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
-      <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Menit</span>
-    </div>
-    <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
-      <span id="cd-seconds" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
-      <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Detik</span>
-    </div>
-  </div>
-</div>
+        <div class="grid grid-cols-4 gap-2 max-w-sm mx-auto">
+          <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+            <span id="cd-days" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Hari</span>
+          </div>
+          <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+            <span id="cd-hours" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Jam</span>
+          </div>
+          <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+            <span id="cd-minutes" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Menit</span>
+          </div>
+          <div class="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+            <span id="cd-seconds" class="block text-xl font-bold text-slate-800 dark:text-white">00</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase">Detik</span>
+          </div>
+        </div>
+      </div>
 
-      <!-- Pasang ID di judul ini -->
       <h2 id="anggota" class="text-2xl font-bold text-center mb-8">Anggota BIMASENA</h2>
 
-       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
 
         <!-- MEMBER 1 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-1" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="Irfan.jpg" alt="Irfan Syahfutra" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
@@ -518,14 +561,17 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sistem Informasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"P, Juanda."</p>
           </div>
-          <a href="https://www.instagram.com/irfansyftra" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@irfansyftra</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/irfansyftra" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@irfansyftra</span>
+            </a>
+            
+          </div>
         </div>
 
         <!-- MEMBER 2 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-2" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="Sehan.jpeg" alt="Muhamad Syaikhon Ramadhan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
@@ -534,14 +580,17 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">DKV</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Anak kreatif penentu estetika visual."</p>
           </div>
-          <a href="https://www.instagram.com/syaikhonmuhamad" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@syaikhonmuhamad</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/syaikhonmuhamad" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@syaikhonmuhamad</span>
+            </a>
+            
+          </div>
         </div>
 
         <!-- MEMBER 3 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-3" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="Tabby.jpeg" alt="Tabby Jenovan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
@@ -550,14 +599,17 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">DKV</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Mencairkan suasana kalau lagi sepi."</p>
           </div>
-          <a href="https://www.instagram.com/jenovan04._" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@jenovan04._</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/jenovan04._" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@jenovan04._</span>
+            </a>
+            
+          </div>
         </div>
 
         <!-- MEMBER 4 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-4" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="andini.jpeg" alt="andini" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
@@ -566,30 +618,36 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Manajemen</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Penyusun rencana dan perorganisir ulung."</p>
           </div>
-          <a href="https://www.instagram.com/a.ndine__" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@a.ndine__</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/a.ndine__" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@a.ndine__</span>
+            </a>
+            
+          </div>
         </div>
 
         <!-- MEMBER 5 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-5" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
-           <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="citra.jpg" alt="citra" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Tiara Citra Dewi</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sains Komunikasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Penghubung komunikasi yang selalu ramah."</p>
           </div>
-          <a href="https://www.instagram.com/tiaractrr" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@tiaractrr</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/tiaractrr" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@tiaractrr</span>
+            </a>
+            
+          </div>
         </div>
 
         <!-- MEMBER 6 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-6" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="eiysa.jpeg" alt="eiysa" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
@@ -598,14 +656,17 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sistem Informasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Anak IT penolong urusan teknis."</p>
           </div>
-          <a href="https://www.instagram.com/llysaa.chrnii" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@llysaa.chrnii</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/llysaa.chrnii" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@llysaa.chrnii</span>
+            </a>
+            
+          </div>
         </div>
 
         <!-- MEMBER 7 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-7" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="fay.jpg" alt="fay" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
@@ -614,14 +675,17 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sains Komunikasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Pendengar dan penyampai cerita yang hangat."</p>
           </div>
-          <a href="https://www.instagram.com/fthyadiba" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@fthyadiba</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/fthyadiba" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@fthyadiba</span>
+            </a>
+            
+          </div>
         </div>
 
         <!-- MEMBER 8 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-8" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
             <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="zahra.jpg" alt="zahra" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
@@ -630,26 +694,32 @@
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Sains Komunikasi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Selalu ceria dan penyemangat kawan-kawan."</p>
           </div>
-          <a href="https://www.instagram.com/zaharah_308" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@zaharah_308</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/zaharah_308" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@zaharah_308</span>
+            </a>
+            
+          </div>
         </div>
 
         <!-- MEMBER 9 -->
-        <div class="smooth-card bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col justify-between transition-colors duration-300" data-aos="fade-up">
+        <div id="card-member-9" class="glass-card rounded-2xl p-6 flex flex-col justify-between">
           <div>
-           <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-indigo-500 shadow-md group bg-slate-200 dark:bg-slate-700">
               <img src="isna.jpg" alt="isna" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out" onerror="this.remove()">
             </div>
             <h3 class="text-2xl font-bold text-center text-slate-800 dark:text-white">Isna Putri</h3>
             <p class="text-indigo-500 dark:text-indigo-400 text-sm font-semibold text-center mb-2">Akuntansi</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 text-center italic">"Penyimpan rahasia keuangan squad."</p>
           </div>
-          <a href="https://www.instagram.com/isnaaaptr_" target="_blank" rel="noopener noreferrer" class="mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
-            <i data-lucide="instagram" class="w-4 h-4"></i>
-            <span>@isnaaaptr_</span>
-          </a>
+          <div class="mt-6 space-y-2">
+            <a href="https://www.instagram.com/isnaaaptr_" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold py-2.5 px-4 rounded-2xl transition-all duration-300 shadow-md hover:scale-[1.02]">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+              <span>@isnaaaptr_</span>
+            </a>
+            
+          </div>
         </div>
 
       </div>
@@ -978,6 +1048,52 @@
       document.getElementById('quiz-body').classList.add('hidden');
       document.getElementById('quiz-result').classList.add('hidden');
     }
+
+    // Daftar Quote / Inside Jokes saat Loading
+  const loadingQuotes = [
+    '"Project kelar tepat waktu! ☕"',
+    '"Beda kepala, satu tujuan! 🔥"',
+    '"Menyiapkan foto-foto kenangan... 📸"',
+    '"Menghubungkan ke server BIMASENA... 🛡️"',
+    '"Jangan lupa tonton video ILM kita ya! 🎬"'
+  ];
+
+  // Ganti quote secara acak
+  const quoteElement = document.getElementById('loading-quote');
+  if (quoteElement) {
+    const randomQuote = loadingQuotes[Math.floor(Math.random() * loadingQuotes.length)];
+    quoteElement.innerText = randomQuote;
+  }
+
+  // Simulasi Progress Bar %
+  let progress = 0;
+  const progressBar = document.getElementById('loading-bar');
+  const progressText = document.getElementById('loading-progress');
+
+  const interval = setInterval(() => {
+    progress += Math.floor(Math.random() * 15) + 5;
+    if (progress > 90) progress = 95; // Tahan di 95% sampai window benar-benar selesai load
+    
+    if (progressBar) progressBar.style.width = progress + '%';
+    if (progressText) progressText.innerText = progress + '%';
+  }, 150);
+
+  // Selesai Load
+  window.addEventListener('load', function() {
+    clearInterval(interval);
+    if (progressBar) progressBar.style.width = '100%';
+    if (progressText) progressText.innerText = '100%';
+
+    setTimeout(() => {
+      const loader = document.getElementById('loading-screen');
+      if (loader) {
+        loader.classList.add('opacity-0');
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 500);
+      }
+    }, 400); // Tunda sebentar di 100% sebelum hilang
+  });
   </script>
 
   <script src="script.js"></script>
